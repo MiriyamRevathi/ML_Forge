@@ -88,3 +88,5 @@ class SinglePredictor:
             "probabilities": probabilities,
             "prediction_record_id": record["id"]
         }
+
+# Feature sync: feature/prediction-inference-engine (PR #11)
