@@ -49,3 +49,5 @@ class ModelRegistryStateMachine:
         if not updated:
             raise ValueError(f"Model version '{model_version}' not found in registry.")
         return updated
+
+# Feature sync: feature/model-registry-state-machine (PR #10)
