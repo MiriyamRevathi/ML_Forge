@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard — MLForge ML Systems Platform{% endblock %}
+{% block page_title %}ML Systems Operational Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-page">
+    <!-- Stat Metrics Grid -->
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-header">
+                <span class="metric-title">Datasets</span>
+                <span class="metric-icon">📁</span>
+            </div>
+            <div class="metric-value">{{ summary.datasets_count }}</div>
+            <div class="metric-subtext">Active datasets in storage</div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-header">
+                <span class="metric-title">Experiments</span>
+                <span class="metric-icon">🧪</span>
+            </div>
+            <div class="metric-value">{{ summary.experiments_count }}</div>
+            <div class="metric-subtext">Completed experiment runs</div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-header">
+                <span class="metric-title">Pipeline Runs</span>
+                <span class="metric-icon">⛓️</span>
+            </div>
+            <div class="metric-value">{{ summary.pipeline_runs_count }}</div>
+            <div class="metric-subtext">Automated pipeline executions</div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-header">
+                <span class="metric-title">Models</span>
+                <span class="metric-icon">📦</span>
+            </div>
+            <div class="metric-value">{{ summary.models_count }}</div>
+            <div class="metric-subtext">Trained model versions</div>
+        </div>
+
+        <div class="metric-card highlight-card">
+            <div class="metric-header">
+                <span class="metric-title">Production Models</span>
+                <span class="metric-icon">🚀</span>
+            </div>
+            <div class="metric-value">{{ summary.production_models_count }}</div>
+            <div class="metric-subtext">Active in prediction service</div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-header">
+                <span class="metric-title">Predictions</span>
+                <span class="metric-icon">🎯</span>
+            </div>
+            <div class="metric-value">{{ summary.predictions_count }}</div>
+            <div class="metric-subtext">Logged inference requests</div>
+        </div>
+
+        <div class="metric-card alert-card">
+            <div class="metric-header">
+                <span class="metric-title">Drift Alerts</span>
+                <span class="metric-icon">⚠️</span>
+            </div>
+            <div class="metric-value">{{ summary.drift_alerts_count }}</div>
+            <div class="metric-subtext">Features exceeding threshold</div>
+        </div>
+
+        <div class="metric-card health-card">
+            <div class="metric-header">
+                <span class="metric-title">Model Health</span>
+                <span class="metric-icon">🩺</span>
+            </div>
+            <div class="metric-value">{{ summary.health_score }}/100</div>
+            <div class="metric-subtext">Status: <strong>{{ summary.health_status }}</strong></div>
+        </div>
+    </div>
+
+    <!-- Quick Action Launch Banner -->
+    <div class="card quick-actions-card">
+        <h3>⚡ ML Lifecycle Actions</h3>
+        <div class="action-buttons-group">
+            <a href="{{ url_for('datasets.index') }}" class="btn btn-secondary">
+                <span>📁 Upload Dataset</span>
+            </a>
+            <a href="{{ url_for('pipelines.index') }}" class="btn btn-primary">
+                <span>⛓️ Build New Pipeline</span>
+            </a>
+            <a href="{{ url_for('models.index') }}" class="btn btn-secondary">
+                <span>📦 Model Registry</span>
+            </a>
+            <a href="{{ url_for('predictions.index') }}" class="btn btn-secondary">
+                <span>🎯 Run Inference</span>
+            </a>
+            <a href="{{ url_for('monitoring.index') }}" class="btn btn-secondary">
+                <span>📈 Drift Analysis</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Dashboard Content Columns -->
+    <div class="dashboard-columns-grid">
+        <!-- Datasets List -->
+        <div class="card">
+            <div class="card-header">
+                <h3>📁 Registered Datasets</h3>
+                <a href="{{ url_for('datasets.index') }}" class="view-all-link">View All →</a>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Dataset Name</th>
+                            <th>Target</th>
+                            <th>Task</th>
+                            <th>Rows</th>
+                            <th>Size</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ds in datasets %}
+                            <tr>
+                                <td><strong>{{ ds.name }}</strong></td>
+                                <td><code>{{ ds.target_column }}</code></td>
+                                <td><span class="badge badge-info">{{ ds.task_type }}</span></td>
+                                <td>{{ ds.rows }}</td>
+                                <td>{{ ds.file_size }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="empty-cell">No datasets uploaded yet. Click Upload Dataset to begin.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Trained Models -->
+        <div class="card">
+            <div class="card-header">
+                <h3>📦 Trained Model Registry</h3>
+                <a href="{{ url_for('models.index') }}" class="view-all-link">View Registry →</a>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Version</th>
+                            <th>Model Name</th>
+                            <th>Task</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for model in models %}
+                            <tr>
+                                <td><code>{{ model.version }}</code></td>
+                                <td><strong>{{ model.name }}</strong></td>
+                                <td><span class="badge badge-info">{{ model.task_type }}</span></td>
+                                <td>
+                                    <span class="status-pill status-{{ model.status | lower }}">
+                                        {{ model.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="empty-cell">No trained models registered yet. Run a pipeline to train your first model.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

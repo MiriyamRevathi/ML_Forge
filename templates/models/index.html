@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Model Registry — MLForge{% endblock %}
+{% block page_title %}Model Registry & Version Management{% endblock %}
+
+{% block content %}
+<div class="models-page">
+    <div class="card">
+        <h3>📦 Registered Model Lifecycle Board</h3>
+        <p class="section-desc">Manage model version states: <code>TRAINED</code> → <code>VALIDATED</code> → <code>STAGING</code> → <code>PRODUCTION</code> → <code>ARCHIVED</code>.</p>
+        
+        <div class="table-container" style="margin-top: 1rem;">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Version</th>
+                        <th>Model Name</th>
+                        <th>Task</th>
+                        <th>Dataset</th>
+                        <th>Features</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for model in models %}
+                        <tr>
+                            <td><code>{{ model.version }}</code></td>
+                            <td><strong>{{ model.name }}</strong></td>
+                            <td><span class="badge badge-info">{{ model.task_type }}</span></td>
+                            <td><code>{{ model.dataset_name }}</code></td>
+                            <td>{{ model.feature_count }} cols</td>
+                            <td>
+                                <span class="status-pill status-{{ model.status | lower }}">
+                                    {{ model.status }}
+                                </span>
+                            </td>
+                            <td>
+                                <form action="{{ url_for('models.update_status', model_version=model.version) }}" method="POST" style="display:inline-flex; gap:0.5rem;">
+                                    <select name="status" class="form-control form-control-sm" style="width: auto;">
+                                        <option value="TRAINED" {% if model.status == 'TRAINED' %}selected{% endif %}>TRAINED</option>
+                                        <option value="VALIDATED" {% if model.status == 'VALIDATED' %}selected{% endif %}>VALIDATED</option>
+                                        <option value="STAGING" {% if model.status == 'STAGING' %}selected{% endif %}>STAGING</option>
+                                        <option value="PRODUCTION" {% if model.status == 'PRODUCTION' %}selected{% endif %}>PRODUCTION</option>
+                                        <option value="ARCHIVED" {% if model.status == 'ARCHIVED' %}selected{% endif %}>ARCHIVED</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-secondary">Update Status</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="empty-cell">No trained model versions registered yet. Run an ML pipeline to generate model artifacts.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

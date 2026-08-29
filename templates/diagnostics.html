@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}System Diagnostics — MLForge{% endblock %}
+{% block page_title %}System Health & Dependency Diagnostics{% endblock %}
+
+{% block content %}
+<div class="diagnostics-page">
+    <div class="card">
+        <div class="card-header">
+            <h3>🩺 System Status Checks</h3>
+            <span class="badge {% if all_passed %}badge-success{% else %}badge-danger{% endif %}" style="font-size: 1rem; padding: 0.5rem 1rem;">
+                {% if all_passed %}ALL SYSTEMS OPERATIONAL{% else %}SYSTEM ISSUES DETECTED{% endif %}
+            </span>
+        </div>
+        <p class="section-desc">Empirical runtime verification of Python dependencies, file system permissions, local storage paths, and ML pipeline readiness.</p>
+        
+        <div class="table-container" style="margin-top: 1.5rem;">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Status</th>
+                        <th>Version / Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for name, result in health_results.items() %}
+                        <tr>
+                            <td><strong>{{ name }}</strong></td>
+                            <td>
+                                {% if result.status == 'PASS' %}
+                                    <span class="status-pill status-production">✓ PASS</span>
+                                {% else %}
+                                    <span class="status-pill status-critical">❌ FAIL</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if result.version %}
+                                    <code>v{{ result.version }}</code>
+                                {% elif result.path %}
+                                    <small>Path: {{ result.path }}</small>
+                                {% elif result.details %}
+                                    <span>{{ result.details }}</span>
+                                {% elif result.error %}
+                                    <span class="text-danger">{{ result.error }}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Monitoring — MLForge{% endblock %}
+{% block page_title %}Model Health & Statistical Data Drift Monitoring{% endblock %}
+
+{% block content %}
+<div class="monitoring-page">
+    <div class="card">
+        <h3>📈 Model Performance & Health Score Overview</h3>
+        
+        <div class="metrics-grid" style="margin-top: 1rem;">
+            <div class="metric-card health-card">
+                <div class="metric-title">Health Score</div>
+                <div class="metric-value">{{ summary.health_score }}/100</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">System Status</div>
+                <div class="metric-value">{{ summary.health_status }}</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Drift Alerts</div>
+                <div class="metric-value">{{ summary.drift_alerts_count }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Drift Reports Table -->
+    <div class="card" style="margin-top: 1.5rem;">
+        <h3>⚠️ Feature Data Drift Analysis Reports</h3>
+        
+        <div class="table-container" style="margin-top: 1rem;">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Report ID</th>
+                        <th>Reference Dataset</th>
+                        <th>Target Dataset</th>
+                        <th>Drift Status</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in drift_reports %}
+                        <tr>
+                            <td><code>{{ report.id }}</code></td>
+                            <td><code>{{ report.reference_dataset }}</code></td>
+                            <td><code>{{ report.target_dataset }}</code></td>
+                            <td>
+                                <span class="status-pill status-{{ 'critical' if report.has_drift else 'production' }}">
+                                    {{ report.drift_status or ('DRIFT DETECTED' if report.has_drift else 'NORMAL') }}
+                                </span>
+                            </td>
+                            <td><small>{{ report.timestamp }}</small></td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="empty-cell">No drift analysis reports generated yet. Run a drift inspection from the pipeline suite.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

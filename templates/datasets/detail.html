@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}{{ dataset.name }} — Dataset Detail{% endblock %}
+{% block page_title %}Dataset Inspection: {{ dataset.name }}{% endblock %}
+
+{% block content %}
+<div class="dataset-detail-page">
+    <div class="card">
+        <div class="card-header">
+            <h3>📁 Metadata Summary</h3>
+            <a href="{{ url_for('datasets.index') }}" class="btn btn-sm btn-secondary">← Back to Datasets</a>
+        </div>
+        
+        <div class="metrics-grid" style="margin-top: 1rem;">
+            <div class="metric-card">
+                <div class="metric-title">Target Column</div>
+                <div class="metric-value" style="font-size: 1.2rem;"><code>{{ dataset.target_column }}</code></div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Task Type</div>
+                <div class="metric-value" style="font-size: 1.2rem;">{{ dataset.task_type | capitalize }}</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Total Rows</div>
+                <div class="metric-value" style="font-size: 1.2rem;">{{ dataset.rows }}</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Total Columns</div>
+                <div class="metric-value" style="font-size: 1.2rem;">{{ dataset.columns }}</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Missing Values</div>
+                <div class="metric-value" style="font-size: 1.2rem;">{{ dataset.missing_values_count }}</div>
+            </div>
+        </div>
+
+        <div style="margin-top: 1.5rem;">
+            <h4>Numerical Columns ({{ dataset.numerical_columns | length }})</h4>
+            <p><code>{{ dataset.numerical_columns | join(', ') }}</code></p>
+
+            <h4 style="margin-top: 1rem;">Categorical Columns ({{ dataset.categorical_columns | length }})</h4>
+            <p><code>{{ dataset.categorical_columns | join(', ') }}</code></p>
+        </div>
+    </div>
+
+    <!-- Preview Table -->
+    <div class="card" style="margin-top: 1.5rem;">
+        <h3>👁️ Dataset Preview (First 10 Rows)</h3>
+        <div class="table-container">
+            {% if preview_data %}
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            {% for col in dataset.column_names %}
+                                <th>{{ col }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in preview_data %}
+                            <tr>
+                                {% for col in dataset.column_names %}
+                                    <td>{{ row[col] }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="empty-cell">No preview data available.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MLForge — Machine Learning Systems Platform{% endblock %}</title>
+    
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/variables.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pipeline.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/darkmode.css') }}">
+    
+    {% block head %}{% endblock %}
+</head>
+<body class="mlforge-body">
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon">⚡</div>
+                <div class="logo-text">
+                    <span class="brand-name">MLForge</span>
+                    <span class="brand-sub">ML Systems Engine</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="{% if active_tab == 'dashboard' %}active{% endif %}">
+                        <a href="{{ url_for('dashboard.index') }}">
+                            <span class="nav-icon">📊</span>
+                            <span class="nav-label">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="{% if active_tab == 'datasets' %}active{% endif %}">
+                        <a href="{{ url_for('datasets.index') }}">
+                            <span class="nav-icon">📁</span>
+                            <span class="nav-label">Datasets</span>
+                        </a>
+                    </li>
+                    <li class="{% if active_tab == 'pipelines' %}active{% endif %}">
+                        <a href="{{ url_for('pipelines.index') }}">
+                            <span class="nav-icon">⛓️</span>
+                            <span class="nav-label">Pipelines</span>
+                        </a>
+                    </li>
+                    <li class="{% if active_tab == 'experiments' %}active{% endif %}">
+                        <a href="{{ url_for('experiments.index') }}">
+                            <span class="nav-icon">🧪</span>
+                            <span class="nav-label">Experiments</span>
+                        </a>
+                    </li>
+                    <li class="{% if active_tab == 'models' %}active{% endif %}">
+                        <a href="{{ url_for('models.index') }}">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-label">Model Registry</span>
+                        </a>
+                    </li>
+                    <li class="{% if active_tab == 'predictions' %}active{% endif %}">
+                        <a href="{{ url_for('predictions.index') }}">
+                            <span class="nav-icon">🎯</span>
+                            <span class="nav-label">Predictions</span>
+                        </a>
+                    </li>
+                    <li class="{% if active_tab == 'monitoring' %}active{% endif %}">
+                        <a href="{{ url_for('monitoring.index') }}">
+                            <span class="nav-icon">📈</span>
+                            <span class="nav-label">Monitoring</span>
+                        </a>
+                    </li>
+                    <li class="{% if active_tab == 'diagnostics' %}active{% endif %}">
+                        <a href="{{ url_for('diagnostics.index') }}">
+                            <span class="nav-icon">🩺</span>
+                            <span class="nav-label">Diagnostics</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="status-indicator">
+                    <span class="pulse-dot"></span>
+                    <span>Local ML Engine Active</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Wrapper -->
+        <div class="main-wrapper">
+            <!-- Top Navbar -->
+            <header class="top-navbar">
+                <button class="mobile-menu-toggle" id="sidebarToggle">☰</button>
+                
+                <div class="navbar-title">
+                    <h1>{% block page_title %}ML Systems Workspace{% endblock %}</h1>
+                </div>
+                
+                <div class="navbar-actions">
+                    <!-- Theme Toggle -->
+                    <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme">
+                        <span id="themeIcon">🌙</span>
+                    </button>
+                    
+                    <div class="user-badge">
+                        <span class="user-avatar">⚙️</span>
+                        <span class="user-role">ML Engineer</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Flash Messages -->
+            <div class="flash-messages-container">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible">
+                                <span>{{ message }}</span>
+                                <button type="button" class="alert-close" onclick="this.parentElement.remove()">×</button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+
+            <!-- Content Area -->
+            <main class="content-area">
+                {% block content %}
+                    {% if error_title %}
+                        <div class="card error-card">
+                            <h2>{{ error_title }}</h2>
+                            <p>{{ error_message }}</p>
+                            <a href="{{ url_for('dashboard.index') }}" class="btn btn-primary" style="margin-top: 1rem;">Return to Dashboard</a>
+                        </div>
+                    {% endif %}
+                {% endblock %}
+            </main>
+
+            <!-- Footer -->
+            <footer class="app-footer">
+                <p>MLForge v1.0.0 — Production Machine Learning Systems Platform — Local Execution Engine</p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- JavaScript Bundle -->
+    <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/storage.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/notifications.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

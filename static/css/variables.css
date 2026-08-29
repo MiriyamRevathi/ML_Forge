@@ -1,0 +1,73 @@
+/* MLForge - Global CSS Variables & Theme Foundations */
+
+:root {
+    /* Color Palette - Dark Theme Default */
+    --bg-primary: #0b0f19;
+    --bg-secondary: #111827;
+    --bg-tertiary: #1f2937;
+    --bg-card: #161e2e;
+    --bg-hover: #26334d;
+    
+    /* Text Colors */
+    --text-primary: #f9fafb;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    --text-inverse: #111827;
+    
+    /* Accent & Brand Colors */
+    --accent-primary: #3b82f6;      /* Electric Blue */
+    --accent-primary-hover: #2563eb;
+    --accent-secondary: #8b5cf6;    /* Purple */
+    --accent-success: #10b981;      /* Emerald Green */
+    --accent-warning: #f59e0b;      /* Amber */
+    --accent-danger: #ef4444;       /* Crimson Red */
+    --accent-info: #06b6d4;         /* Cyan */
+    
+    /* Borders & Dividers */
+    --border-color: #1e293b;
+    --border-highlight: #334155;
+    
+    /* Status Colors */
+    --status-trained: #3b82f6;
+    --status-validated: #06b6d4;
+    --status-staging: #f59e0b;
+    --status-production: #10b981;
+    --status-archived: #6b7280;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    
+    /* Typography & Spacing */
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-full: 9999px;
+    
+    /* Layout Dimensions */
+    --sidebar-width: 260px;
+    --topbar-height: 64px;
+}
+
+[data-theme="light"] {
+    --bg-primary: #f3f4f6;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #e5e7eb;
+    --bg-card: #ffffff;
+    --bg-hover: #f9fafb;
+    
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-muted: #9ca3af;
+    --text-inverse: #ffffff;
+    
+    --border-color: #e5e7eb;
+    --border-highlight: #d1d5db;
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}

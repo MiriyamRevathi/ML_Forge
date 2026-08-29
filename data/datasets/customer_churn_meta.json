@@ -1,0 +1,39 @@
+{
+    "id": "customer_churn",
+    "filename": "customer_churn.csv",
+    "name": "Customer Churn Prediction Dataset",
+    "target_column": "churn",
+    "task_type": "classification",
+    "rows": 500,
+    "columns": 10,
+    "column_names": [
+        "customer_id",
+        "age",
+        "tenure_months",
+        "monthly_charges",
+        "total_charges",
+        "contract_type",
+        "payment_method",
+        "internet_service",
+        "tech_support",
+        "churn"
+    ],
+    "numerical_columns": [
+        "age",
+        "tenure_months",
+        "monthly_charges",
+        "total_charges",
+        "churn"
+    ],
+    "categorical_columns": [
+        "customer_id",
+        "contract_type",
+        "payment_method",
+        "internet_service",
+        "tech_support"
+    ],
+    "missing_values_count": 15,
+    "file_size": "33.62 KB",
+    "created_at": "2026-08-29T10:08:20.940008",
+    "is_sample": true
+}

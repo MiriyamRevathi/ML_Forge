@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Pipeline Builder — MLForge{% endblock %}
+{% block page_title %}Interactive Visual Pipeline Builder{% endblock %}
+
+{% block content %}
+<div class="pipeline-builder-page">
+    <div class="card">
+        <div class="card-header">
+            <h3>🛠️ Configure Machine Learning Pipeline DAG</h3>
+            <a href="{{ url_for('pipelines.index') }}" class="btn btn-sm btn-secondary">← Back to Pipelines</a>
+        </div>
+        <p class="section-desc">Configure step-by-step dataset selection, cleaning strategy, feature engineering, split parameters, and model hyperparameters.</p>
+
+        <form id="pipelineBuilderForm" class="pipeline-config-form" style="margin-top: 1.5rem;">
+            <!-- Pipeline Name -->
+            <div class="form-group">
+                <label for="pipe_name">Pipeline Name</label>
+                <input type="text" id="pipe_name" name="name" value="Customer Churn Pipeline" required class="form-control">
+            </div>
+
+            <!-- Grid Layout of Pipeline Steps -->
+            <div class="pipeline-builder-grid">
+                <!-- Step 1: Dataset & Task -->
+                <div class="card step-card">
+                    <div class="step-card-header">
+                        <span class="step-number">1</span>
+                        <h4>Dataset & Task Configuration</h4>
+                    </div>
+                    <div class="form-group">
+                        <label for="dataset_select">Dataset</label>
+                        <select id="dataset_select" name="dataset_id" class="form-control">
+                            {% for ds in datasets %}
+                                <option value="{{ ds.id }}" data-target="{{ ds.target_column }}" data-task="{{ ds.task_type }}">{{ ds.name }} ({{ ds.rows }} rows)</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="target_select">Target Column</label>
+                        <input type="text" id="target_select" name="target_column" value="churn" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="task_select">Task Type</label>
+                        <select id="task_select" name="task" class="form-control">
+                            <option value="classification">Classification</option>
+                            <option value="regression">Regression</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Step 2: Cleaning & Preprocessing -->
+                <div class="card step-card">
+                    <div class="step-card-header">
+                        <span class="step-number">2</span>
+                        <h4>Cleaning & Preprocessing</h4>
+                    </div>
+                    <div class="form-group">
+                        <label for="impute_strategy">Numerical Missing Values</label>
+                        <select id="impute_strategy" name="impute_strategy" class="form-control">
+                            <option value="mean">Mean Imputation</option>
+                            <option value="median">Median Imputation</option>
+                            <option value="drop">Drop Rows</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="scaler_choice">Numerical Feature Scaling</label>
+                        <select id="scaler_choice" name="scaler" class="form-control">
+                            <option value="standard">StandardScaler (Zero Mean, Unit Var)</option>
+                            <option value="minmax">MinMaxScaler (Range 0-1)</option>
+                            <option value="robust">RobustScaler (Median & IQR)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="encoder_choice">Categorical Encoding</label>
+                        <select id="encoder_choice" name="encoder" class="form-control">
+                            <option value="onehot">One-Hot Encoding</option>
+                            <option value="ordinal">Ordinal Encoding</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Step 3: Model Selection & Hyperparams -->
+                <div class="card step-card">
+                    <div class="step-card-header">
+                        <span class="step-number">3</span>
+                        <h4>Model Architecture & Split</h4>
+                    </div>
+                    <div class="form-group">
+                        <label for="test_size_select">Test Dataset Split Ratio</label>
+                        <select id="test_size_select" name="test_size" class="form-control">
+                            <option value="0.2">80% Train / 20% Test</option>
+                            <option value="0.3">70% Train / 30% Test</option>
+                            <option value="0.1">90% Train / 10% Test</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="model_select">ML Model Algorithm</label>
+                        <select id="model_select" name="model_name" class="form-control">
+                            <optgroup label="Classification Algorithms">
+                                {% for key, val in classification_models.items() %}
+                                    <option value="{{ key }}">{{ val }}</option>
+                                {% endfor %}
+                            </optgroup>
+                            <optgroup label="Regression Algorithms">
+                                {% for key, val in regression_models.items() %}
+                                    <option value="{{ key }}">{{ val }}</option>
+                                {% endfor %}
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div style="margin-top: 1.5rem; text-align: right;">
+                <button type="submit" class="btn btn-primary btn-lg">💾 Save Pipeline DAG Configuration</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

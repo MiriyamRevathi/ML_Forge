@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Experiments — MLForge{% endblock %}
+{% block page_title %}Experiment Tracking & Metrics Index{% endblock %}
+
+{% block content %}
+<div class="experiments-page">
+    <div class="card">
+        <h3>🧪 Tracked Experiment Runs</h3>
+        <p class="section-desc">Comparison log of all model training runs, logged metrics, parameters, and training durations.</p>
+        
+        <div class="table-container" style="margin-top: 1rem;">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Experiment ID</th>
+                        <th>Name</th>
+                        <th>Dataset</th>
+                        <th>Task</th>
+                        <th>Model</th>
+                        <th>Key Metric</th>
+                        <th>Duration</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for exp in experiments %}
+                        <tr>
+                            <td><code>{{ exp.id }}</code></td>
+                            <td><strong>{{ exp.name }}</strong></td>
+                            <td><code>{{ exp.dataset }}</code></td>
+                            <td><span class="badge badge-info">{{ exp.task }}</span></td>
+                            <td>{{ exp.model_name }}</td>
+                            <td>
+                                {% if exp.metrics %}
+                                    {% if exp.metrics.accuracy %}
+                                        <strong>Accuracy: {{ exp.metrics.accuracy_percentage }}%</strong>
+                                    {% elif exp.metrics.r2_score %}
+                                        <strong>R²: {{ exp.metrics.r2_score }}</strong>
+                                    {% endif %}
+                                {% else %}
+                                    <span>N/A</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ exp.training_duration }}s</td>
+                            <td><small>{{ exp.created_at }}</small></td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8" class="empty-cell">No experiments logged yet. Execute an ML pipeline to record your first experiment run.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

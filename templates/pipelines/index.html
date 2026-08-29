@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Pipelines — MLForge{% endblock %}
+{% block page_title %}ML Pipeline Builder & Execution Engine{% endblock %}
+
+{% block content %}
+<div class="pipelines-page">
+    <!-- Visual Pipeline Architecture Card -->
+    <div class="card">
+        <div class="card-header">
+            <h3>⚡ End-to-End ML Pipeline DAG Architecture</h3>
+            <a href="{{ url_for('pipelines.builder') }}" class="btn btn-primary">➕ Open Interactive Visual Builder</a>
+        </div>
+        
+        <!-- Pipeline Visual Diagram -->
+        <div class="pipeline-visual-dag">
+            <div class="dag-step">
+                <div class="step-icon">📁</div>
+                <div class="step-label">Dataset Ingestion</div>
+            </div>
+            <div class="dag-arrow">↓</div>
+            <div class="dag-step">
+                <div class="step-icon">🔍</div>
+                <div class="step-label">Data Validation</div>
+            </div>
+            <div class="dag-arrow">↓</div>
+            <div class="dag-step">
+                <div class="step-icon">🧹</div>
+                <div class="step-label">Cleaning & Imputation</div>
+            </div>
+            <div class="dag-arrow">↓</div>
+            <div class="dag-step">
+                <div class="step-icon">⚙️</div>
+                <div class="step-label">Preprocessing & Scaling</div>
+            </div>
+            <div class="dag-arrow">↓</div>
+            <div class="dag-step">
+                <div class="step-icon">🧪</div>
+                <div class="step-label">Feature Engineering</div>
+            </div>
+            <div class="dag-arrow">↓</div>
+            <div class="dag-step">
+                <div class="step-icon">✂️</div>
+                <div class="step-label">Train / Test Split</div>
+            </div>
+            <div class="dag-arrow">↓</div>
+            <div class="dag-step">
+                <div class="step-icon">🤖</div>
+                <div class="step-label">Model Training</div>
+            </div>
+            <div class="dag-arrow">↓</div>
+            <div class="dag-step">
+                <div class="step-icon">📈</div>
+                <div class="step-label">Model Evaluation</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Saved Pipelines List -->
+    <div class="card" style="margin-top: 1.5rem;">
+        <h3>📋 Saved Pipeline DAG Configurations</h3>
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Pipeline ID</th>
+                        <th>Name</th>
+                        <th>Dataset</th>
+                        <th>Target</th>
+                        <th>Task</th>
+                        <th>Model</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pipe in pipelines %}
+                        <tr>
+                            <td><code>{{ pipe.id }}</code></td>
+                            <td><strong>{{ pipe.name }}</strong></td>
+                            <td><code>{{ pipe.dataset_id }}</code></td>
+                            <td><code>{{ pipe.target_column }}</code></td>
+                            <td><span class="badge badge-info">{{ pipe.task }}</span></td>
+                            <td>{{ pipe.model.name if pipe.model else 'N/A' }}</td>
+                            <td><small>{{ pipe.created_at }}</small></td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="empty-cell">No pipeline configurations saved yet. Click 'Open Interactive Visual Builder' to create one.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

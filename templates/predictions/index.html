@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Predictions — MLForge{% endblock %}
+{% block page_title %}Inference Engine & Batch Prediction{% endblock %}
+
+{% block content %}
+<div class="predictions-page">
+    <div class="dashboard-columns-grid">
+        <!-- Single Prediction Card -->
+        <div class="card">
+            <h3>🎯 Single Online Inference</h3>
+            <p class="section-desc">Select active model and input values for real-time model prediction.</p>
+            
+            {% if production_model %}
+                <div class="alert alert-info">
+                    <span>Active Production Model: <strong>{{ production_model.name }} ({{ production_model.version }})</strong></span>
+                </div>
+            {% else %}
+                <div class="alert alert-warning">
+                    <span>No model currently set to PRODUCTION status. Please set a model to PRODUCTION in the Registry.</span>
+                </div>
+            {% endif %}
+
+            <form id="predictionForm" style="margin-top: 1rem;">
+                <div class="form-group">
+                    <label for="model_version_select">Select Trained Model</label>
+                    <select id="model_version_select" name="model_version" class="form-control">
+                        {% for m in models %}
+                            <option value="{{ m.version }}" {% if m.status == 'PRODUCTION' %}selected{% endif %}>{{ m.name }} ({{ m.version }}) - [{{ m.status }}]</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div id="dynamicFormFields" style="margin-top: 1rem;">
+                    <!-- Dynamic form inputs generated via JS -->
+                    <p class="empty-cell">Select a model above to auto-generate feature input fields.</p>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Execute Prediction</button>
+            </form>
+
+            <div id="predictionResultBox" class="card" style="margin-top: 1rem; display: none;">
+                <h4>Prediction Output:</h4>
+                <div id="predictionOutputContent" class="metric-value" style="font-size: 1.5rem; color: var(--accent-primary);"></div>
+            </div>
+        </div>
+
+        <!-- Batch Prediction Card -->
+        <div class="card">
+            <h3>📄 Bulk CSV Batch Prediction</h3>
+            <p class="section-desc">Upload a CSV file of feature rows to generate predictions in bulk.</p>
+            
+            <form id="batchPredictionForm" style="margin-top: 1rem;">
+                <div class="form-group">
+                    <label for="batch_model_select">Model Version</label>
+                    <select id="batch_model_select" name="model_version" class="form-control">
+                        {% for m in models %}
+                            <option value="{{ m.version }}">{{ m.name }} ({{ m.version }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="batch_csv_file">Upload CSV File</label>
+                    <input type="file" id="batch_csv_file" name="batch_file" accept=".csv" class="form-control">
+                </div>
+                
+                <button type="submit" class="btn btn-secondary" style="margin-top: 1rem;">Run Batch Predictions</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

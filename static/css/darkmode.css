@@ -1,0 +1,15 @@
+/* MLForge - Dark Mode Overrides & Transitions */
+
+body, .sidebar, .top-navbar, .card, .form-control, .data-table th, .data-table td {
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+[data-theme="dark"] .form-control option {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .form-control option {
+    background-color: #ffffff;
+    color: #111827;
+}

@@ -1,0 +1,37 @@
+{
+    "id": "house_prices",
+    "filename": "house_prices.csv",
+    "name": "House Prices Regression Dataset",
+    "target_column": "price",
+    "task_type": "regression",
+    "rows": 500,
+    "columns": 9,
+    "column_names": [
+        "house_id",
+        "square_feet",
+        "bedrooms",
+        "bathrooms",
+        "year_built",
+        "garage_cars",
+        "neighborhood",
+        "condition",
+        "price"
+    ],
+    "numerical_columns": [
+        "square_feet",
+        "bedrooms",
+        "bathrooms",
+        "year_built",
+        "garage_cars",
+        "price"
+    ],
+    "categorical_columns": [
+        "house_id",
+        "neighborhood",
+        "condition"
+    ],
+    "missing_values_count": 0,
+    "file_size": "26.33 KB",
+    "created_at": "2026-08-29T10:08:20.952793",
+    "is_sample": true
+}
