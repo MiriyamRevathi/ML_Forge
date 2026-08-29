@@ -66,3 +66,5 @@ class DatasetLoader:
             "memory_usage": memory_formatted,
             "columns": column_details
         }
+
+# Feature sync: feature/dataset-management-system (PR #1)
