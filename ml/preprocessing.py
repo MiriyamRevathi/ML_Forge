@@ -117,3 +117,5 @@ class FeaturePreprocessor:
             raise RuntimeError("FeaturePreprocessor must be fitted before calling transform().")
             
         return self.column_transformer.transform(X)
+
+# Feature sync: feature/preprocessing-feature-engineering (PR #5)
