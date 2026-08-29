@@ -1,0 +1,54 @@
+{
+    "run_id": "run_20260829_101621_cf243c83",
+    "pipeline_id": null,
+    "pipeline_name": "Customer Churn Unit Test Pipeline",
+    "status": "COMPLETED",
+    "duration_seconds": 0.21,
+    "metrics": {
+        "accuracy": 0.73,
+        "accuracy_percentage": 73.0,
+        "precision": 0.73,
+        "recall": 1.0,
+        "f1_score": 0.8439,
+        "roc_auc": 0.6672,
+        "is_binary": true,
+        "confusion_matrix": {
+            "matrix": [
+                [
+                    0,
+                    27
+                ],
+                [
+                    0,
+                    73
+                ]
+            ],
+            "labels": [
+                "0",
+                "1"
+            ]
+        }
+    },
+    "model_version": "model_v9",
+    "experiment_id": "exp_20260829_101621_93d2b25f",
+    "logs": [
+        "[10:16:21] [INFO] Initializing pipeline execution log for run ID: run_20260829_101621_cf243c83",
+        "[10:16:21] [INFO] Starting pipeline execution for: 'Customer Churn Unit Test Pipeline'",
+        "[10:16:21] [INFO] Step 1: Loading dataset 'customer_churn'...",
+        "[10:16:21] [INFO] Dataset loaded successfully: 500 rows, 10 columns.",
+        "[10:16:21] [INFO] Step 2: Executing data quality validation...",
+        "[10:16:21] [INFO] Validation completed. Quality score: 80/100.",
+        "[10:16:21] [INFO] Step 3: Cleaning dataset (handling missing values & duplicates)...",
+        "[10:16:21] [INFO] Data cleaning completed. Remaining missing cells: 0.",
+        "[10:16:21] [INFO] Step 4: Preprocessing features (Scaler: standard, Encoder: onehot)...",
+        "[10:16:21] [INFO] Feature matrix preprocessed: 519 features output.",
+        "[10:16:21] [INFO] Step 5: Performing Train/Test split (test_size=0.2)...",
+        "[10:16:21] [INFO] Split complete: Train set 400 samples, Test set 100 samples.",
+        "[10:16:21] [INFO] Step 6: Training ML Model (random_forest)...",
+        "[10:16:21] [INFO] Model training completed successfully.",
+        "[10:16:21] [INFO] Step 7: Evaluating model performance on test set...",
+        "[10:16:21] [INFO] Evaluation completed. Performance: Accuracy: 73.0%",
+        "[10:16:21] [INFO] Pipeline execution finished in 0.21s."
+    ],
+    "timestamp": "2026-08-29T10:16:21.992740"
+}

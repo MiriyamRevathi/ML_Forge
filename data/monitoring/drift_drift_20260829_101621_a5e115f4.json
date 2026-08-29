@@ -1,0 +1,63 @@
+{
+    "id": "drift_20260829_101621_a5e115f4",
+    "reference_dataset": "iris",
+    "target_dataset": "iris",
+    "has_drift": false,
+    "drift_status": "NORMAL",
+    "drifted_features_count": 0,
+    "warning_features_count": 0,
+    "total_features_analyzed": 5,
+    "feature_reports": [
+        {
+            "feature": "sepal_length",
+            "type": "numerical",
+            "status": "NORMAL",
+            "p_value": 1.0,
+            "ks_statistic": 0.0,
+            "reference_mean": 5.8433,
+            "target_mean": 5.8433,
+            "mean_change_pct": 0.0
+        },
+        {
+            "feature": "sepal_width",
+            "type": "numerical",
+            "status": "NORMAL",
+            "p_value": 1.0,
+            "ks_statistic": 0.0,
+            "reference_mean": 3.0573,
+            "target_mean": 3.0573,
+            "mean_change_pct": 0.0
+        },
+        {
+            "feature": "petal_length",
+            "type": "numerical",
+            "status": "NORMAL",
+            "p_value": 1.0,
+            "ks_statistic": 0.0,
+            "reference_mean": 3.758,
+            "target_mean": 3.758,
+            "mean_change_pct": 0.0
+        },
+        {
+            "feature": "petal_width",
+            "type": "numerical",
+            "status": "NORMAL",
+            "p_value": 1.0,
+            "ks_statistic": 0.0,
+            "reference_mean": 1.1993,
+            "target_mean": 1.1993,
+            "mean_change_pct": 0.0
+        },
+        {
+            "feature": "species",
+            "type": "categorical",
+            "status": "NORMAL",
+            "p_value": null,
+            "tvd": 0.0,
+            "reference_mean": null,
+            "target_mean": null,
+            "mean_change_pct": 0.0
+        }
+    ],
+    "timestamp": "2026-08-29T10:16:21.136597"
+}

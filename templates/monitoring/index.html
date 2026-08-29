@@ -17,10 +17,73 @@
                 <div class="metric-title">System Status</div>
                 <div class="metric-value">{{ summary.health_status }}</div>
             </div>
-            <div class="metric-card">
-                <div class="metric-title">Drift Alerts</div>
+            <div class="metric-card alert-card">
+                <div class="metric-title">Active Drift Alerts</div>
                 <div class="metric-value">{{ summary.drift_alerts_count }}</div>
             </div>
+            <div class="metric-card highlight-card">
+                <div class="metric-title">Production Models</div>
+                <div class="metric-value">{{ summary.production_models_count }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Monitoring Action Controls Grid -->
+    <div class="dashboard-columns-grid" style="margin-top: 1.5rem;">
+        <!-- Data Drift Form -->
+        <div class="card">
+            <h3>🔬 Run Statistical Data Drift Inspection</h3>
+            <p class="section-desc">Executes Kolmogorov-Smirnov (KS-test) and distribution shift checks comparing baseline reference data vs current incoming data.</p>
+            
+            <form action="{{ url_for('monitoring.run_drift_analysis') }}" method="POST" style="margin-top: 1rem;">
+                <div class="form-group">
+                    <label for="reference_dataset">Reference Dataset (Baseline Training Data)</label>
+                    <select id="reference_dataset" name="reference_dataset" class="form-control" required>
+                        {% for ds in datasets %}
+                            <option value="{{ ds.id }}">{{ ds.name }} ({{ ds.rows }} rows)</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="target_dataset">Target Dataset (Current Production / Input Data)</label>
+                    <select id="target_dataset" name="target_dataset" class="form-control" required>
+                        {% for ds in datasets %}
+                            <option value="{{ ds.id }}" {% if loop.index == 2 %}selected{% endif %}>{{ ds.name }} ({{ ds.rows }} rows)</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-warning" style="margin-top: 1rem;">🔍 Execute Data Drift Inspection</button>
+            </form>
+        </div>
+
+        <!-- Automated Retraining Form -->
+        <div class="card">
+            <h3>🔁 Trigger Automated Model Retraining</h3>
+            <p class="section-desc">Re-executes ML pipeline DAG on new dataset, evaluates candidate model against production baseline, and auto-promotes if metric improves.</p>
+            
+            <form action="{{ url_for('monitoring.retrain_model_action') }}" method="POST" style="margin-top: 1rem;">
+                <div class="form-group">
+                    <label for="retrain_pipeline">Pipeline DAG Configuration</label>
+                    <select id="retrain_pipeline" name="pipeline_id" class="form-control" required>
+                        {% for p in pipelines %}
+                            <option value="{{ p.id }}">{{ p.name }} (Model: {{ p.model.name if p.model else 'N/A' }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="retrain_dataset">Target Dataset for Retraining</label>
+                    <select id="retrain_dataset" name="target_dataset" class="form-control">
+                        {% for ds in datasets %}
+                            <option value="{{ ds.id }}">{{ ds.name }} ({{ ds.rows }} rows)</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">🚀 Retrain & Auto-Promote Model</button>
+            </form>
         </div>
     </div>
 
@@ -36,6 +99,7 @@
                         <th>Reference Dataset</th>
                         <th>Target Dataset</th>
                         <th>Drift Status</th>
+                        <th>Drifted Features</th>
                         <th>Timestamp</th>
                     </tr>
                 </thead>
@@ -46,15 +110,16 @@
                             <td><code>{{ report.reference_dataset }}</code></td>
                             <td><code>{{ report.target_dataset }}</code></td>
                             <td>
-                                <span class="status-pill status-{{ 'critical' if report.has_drift else 'production' }}">
-                                    {{ report.drift_status or ('DRIFT DETECTED' if report.has_drift else 'NORMAL') }}
+                                <span class="status-pill status-{{ 'critical' if report.has_drift else ('staging' if report.drift_status == 'WARNING' else 'production') }}">
+                                    {{ report.drift_status }}
                                 </span>
                             </td>
+                            <td><strong>{{ report.drifted_features_count }}</strong> / {{ report.total_features_analyzed }} cols</td>
                             <td><small>{{ report.timestamp }}</small></td>
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="5" class="empty-cell">No drift analysis reports generated yet. Run a drift inspection from the pipeline suite.</td>
+                            <td colspan="6" class="empty-cell">No drift analysis reports generated yet. Use the form above to run a drift inspection.</td>
                         </tr>
                     {% endfor %}
                 </tbody>

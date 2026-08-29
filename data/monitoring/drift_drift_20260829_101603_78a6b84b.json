@@ -1,0 +1,12 @@
+{
+    "id": "drift_20260829_101603_78a6b84b",
+    "reference_dataset": "iris",
+    "target_dataset": "house_prices",
+    "has_drift": false,
+    "drift_status": "NORMAL",
+    "drifted_features_count": 0,
+    "warning_features_count": 0,
+    "total_features_analyzed": 0,
+    "feature_reports": [],
+    "timestamp": "2026-08-29T10:16:03.781550"
+}

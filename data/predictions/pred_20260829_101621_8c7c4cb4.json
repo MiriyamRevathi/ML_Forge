@@ -1,0 +1,20 @@
+{
+    "id": "pred_20260829_101621_8c7c4cb4",
+    "model_version": "model_v7",
+    "input_data": {
+        "square_feet": 1.0,
+        "bedrooms": 1.0,
+        "bathrooms": 1.0,
+        "year_built": 1.0,
+        "garage_cars": 1.0,
+        "square_feet_x_bedrooms": 1.0,
+        "square_feet_x_bathrooms": 1.0,
+        "bedrooms_x_bathrooms": 1.0,
+        "house_id": "A",
+        "neighborhood": "A",
+        "condition": "A"
+    },
+    "prediction": 227395.017,
+    "probabilities": null,
+    "timestamp": "2026-08-29T10:16:21.041074"
+}

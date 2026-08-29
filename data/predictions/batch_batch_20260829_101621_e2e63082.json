@@ -1,0 +1,9 @@
+{
+    "id": "batch_20260829_101621_e2e63082",
+    "model_version": "model_v7",
+    "original_filename": "test_batch.csv",
+    "total_rows": 10,
+    "processed_rows": 10,
+    "output_csv": "predictions_batch_out_20260829_101621_46163a68.csv",
+    "timestamp": "2026-08-29T10:16:21.123230"
+}

@@ -1,6 +1,6 @@
 {
-    "id": "model_v2",
-    "version": "model_v2",
+    "id": "model_v7",
+    "version": "model_v7",
     "name": "Random Forest Regressor (House Prices Unit Test Pipeline)",
     "task_type": "regression",
     "dataset_name": "house_prices",
@@ -534,8 +534,8 @@
         "n_estimators": 50
     },
     "pipeline_id": null,
-    "status": "STAGING",
-    "artifact_filename": "model_v2.joblib",
-    "created_at": "2026-08-29T10:13:52.014724",
-    "updated_at": "2026-08-29T10:14:54.651056"
+    "status": "PRODUCTION",
+    "artifact_filename": "model_v7.joblib",
+    "created_at": "2026-08-29T10:16:04.714159",
+    "updated_at": "2026-08-29T10:16:20.790808"
 }

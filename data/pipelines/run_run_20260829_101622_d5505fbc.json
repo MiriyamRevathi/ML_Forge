@@ -1,0 +1,36 @@
+{
+    "run_id": "run_20260829_101622_d5505fbc",
+    "pipeline_id": null,
+    "pipeline_name": "House Prices Unit Test Pipeline",
+    "status": "COMPLETED",
+    "duration_seconds": 0.17,
+    "metrics": {
+        "mae": 34789.2589,
+        "mse": 1861692528.4949,
+        "rmse": 43147.3351,
+        "r2_score": 0.9056,
+        "r2_percentage": 90.56
+    },
+    "model_version": "model_v10",
+    "experiment_id": "exp_20260829_101622_21a54175",
+    "logs": [
+        "[10:16:22] [INFO] Initializing pipeline execution log for run ID: run_20260829_101622_d5505fbc",
+        "[10:16:22] [INFO] Starting pipeline execution for: 'House Prices Unit Test Pipeline'",
+        "[10:16:22] [INFO] Step 1: Loading dataset 'house_prices'...",
+        "[10:16:22] [INFO] Dataset loaded successfully: 500 rows, 9 columns.",
+        "[10:16:22] [INFO] Step 2: Executing data quality validation...",
+        "[10:16:22] [INFO] Validation completed. Quality score: 90/100.",
+        "[10:16:22] [INFO] Step 3: Cleaning dataset (handling missing values & duplicates)...",
+        "[10:16:22] [INFO] Data cleaning completed. Remaining missing cells: 0.",
+        "[10:16:22] [INFO] Step 4: Preprocessing features (Scaler: robust, Encoder: onehot)...",
+        "[10:16:22] [INFO] Feature matrix preprocessed: 515 features output.",
+        "[10:16:22] [INFO] Step 5: Performing Train/Test split (test_size=0.2)...",
+        "[10:16:22] [INFO] Split complete: Train set 400 samples, Test set 100 samples.",
+        "[10:16:22] [INFO] Step 6: Training ML Model (random_forest_regressor)...",
+        "[10:16:22] [INFO] Model training completed successfully.",
+        "[10:16:22] [INFO] Step 7: Evaluating model performance on test set...",
+        "[10:16:22] [INFO] Evaluation completed. Performance: R\u00b2: 0.9056",
+        "[10:16:22] [INFO] Pipeline execution finished in 0.17s."
+    ],
+    "timestamp": "2026-08-29T10:16:22.261541"
+}

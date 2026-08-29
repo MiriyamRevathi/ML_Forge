@@ -1,0 +1,23 @@
+{
+    "id": "exp_20260829_101604_57f92fc7",
+    "name": "Run - House Prices Unit Test Pipeline",
+    "dataset": "house_prices",
+    "target": "price",
+    "task": "regression",
+    "model_name": "random_forest_regressor",
+    "hyperparameters": {
+        "n_estimators": 50
+    },
+    "metrics": {
+        "mae": 34789.2589,
+        "mse": 1861692528.4949,
+        "rmse": 43147.3351,
+        "r2_score": 0.9056,
+        "r2_percentage": 90.56
+    },
+    "training_duration": 0.14,
+    "model_version": "model_v7",
+    "pipeline_id": null,
+    "status": "COMPLETED",
+    "created_at": "2026-08-29T10:16:04.716167"
+}
