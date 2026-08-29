@@ -180,3 +180,5 @@ class PipelineEngine:
 
         PipelineService.save_pipeline_run(run_summary)
         return run_summary
+
+# Feature sync: feature/pipeline-dag-engine (PR #6)
