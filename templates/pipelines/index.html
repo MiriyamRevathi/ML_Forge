@@ -69,7 +69,7 @@
                         <th>Target</th>
                         <th>Task</th>
                         <th>Model</th>
-                        <th>Created</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -81,11 +81,54 @@
                             <td><code>{{ pipe.target_column }}</code></td>
                             <td><span class="badge badge-info">{{ pipe.task }}</span></td>
                             <td>{{ pipe.model.name if pipe.model else 'N/A' }}</td>
-                            <td><small>{{ pipe.created_at }}</small></td>
+                            <td>
+                                <form action="{{ url_for('pipelines.run_pipeline_http', pipeline_id=pipe.id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-primary">▶ RUN PIPELINE</button>
+                                </form>
+                            </td>
                         </tr>
                     {% else %}
                         <tr>
                             <td colspan="7" class="empty-cell">No pipeline configurations saved yet. Click 'Open Interactive Visual Builder' to create one.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pipeline Execution Runs History -->
+    <div class="card" style="margin-top: 1.5rem;">
+        <h3>📜 Pipeline Execution Runs History</h3>
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Run ID</th>
+                        <th>Pipeline Name</th>
+                        <th>Model Version</th>
+                        <th>Status</th>
+                        <th>Duration</th>
+                        <th>Timestamp</th>
+                        <th>Logs & Metrics</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for run in runs %}
+                        <tr>
+                            <td><code>{{ run.run_id }}</code></td>
+                            <td><strong>{{ run.pipeline_name }}</strong></td>
+                            <td><code>{{ run.model_version }}</code></td>
+                            <td><span class="status-pill status-production">{{ run.status }}</span></td>
+                            <td>{{ run.duration_seconds }}s</td>
+                            <td><small>{{ run.timestamp }}</small></td>
+                            <td>
+                                <a href="{{ url_for('pipelines.run_detail', run_id=run.run_id) }}" class="btn btn-sm btn-secondary">Inspect Execution Log</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="empty-cell">No pipeline execution runs recorded yet. Click 'RUN PIPELINE' above to execute a DAG.</td>
                         </tr>
                     {% endfor %}
                 </tbody>
