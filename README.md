@@ -1,168 +1,218 @@
-# MLForge — Full-Stack Machine Learning Pipeline Platform
+# MLForge — Machine Learning Pipeline Platform
 
-**MLForge** is a local, full-stack, web-based Machine Learning Pipeline Builder and ML Systems Management Platform built with Python (Flask, pandas, scikit-learn, joblib, matplotlib) and Vanilla HTML5/CSS3/JavaScript.
+MLForge is a local full-stack web application for building, training, evaluating, and managing machine learning pipelines.
 
-MLForge enables end-to-end management of the machine learning lifecycle with **real machine learning execution** on local hardware—no cloud APIs or external databases required.
+It is built with **Python, Flask, pandas, scikit-learn, joblib, matplotlib, HTML, CSS, and Vanilla JavaScript**. Everything runs locally without cloud APIs or an external database.
 
----
+## Features
 
-## 🌟 Key Platform Features
+* **Pipeline Builder** — Create and execute end-to-end ML pipelines.
+* **Dataset Management** — Upload CSV datasets, preview data, validate schemas, and inspect quality.
+* **EDA** — Generate statistics, distributions, correlations, and visualizations.
+* **Data Preprocessing** — Handle missing values, scaling, encoding, outliers, and feature transformations.
+* **Model Training** — Train classification and regression models using scikit-learn.
+* **Model Evaluation** — Calculate accuracy, precision, recall, F1, ROC-AUC, MAE, RMSE, R², and other metrics.
+* **Experiment Tracking** — Store training parameters, metrics, datasets, and experiment results.
+* **Model Registry** — Manage model versions and lifecycle states.
+* **Prediction** — Perform single and batch CSV predictions.
+* **Model Monitoring** — Track model and prediction behavior.
+* **Drift Detection** — Detect feature distribution changes using statistical methods such as KS-test and PSI.
+* **Retraining** — Train new model versions and compare them with existing models.
+* **Diagnostics** — Check application dependencies and ML subsystem health.
 
-- **Visual Pipeline Builder**: Interactive node-based ML pipeline DAG builder with real execution logs.
-- **Dataset Ingestion & Quality**: Upload CSVs, preview schema, validate data quality, run exploratory data analysis (EDA) with matplotlib visualization generation.
-- **Preprocessing Engine**: Configurable missing value imputation, scaling (Standard, MinMax, Robust), categorical encoding (One-Hot, Ordinal), outlier filtering, and feature interactions.
-- **Model Training & Evaluation**: Train Classification (Logistic, Random Forest, Gradient Boosting, SVM, KNN, Naive Bayes) and Regression (Linear, Ridge, Lasso, Random Forest, Gradient Boosting) algorithms with real scikit-learn models.
-- **Model Registry & Lifecycle**: Version control for trained models, state promotion (`TRAINED` → `VALIDATED` → `STAGING` → `PRODUCTION` → `ARCHIVED`), and rollback support.
-- **Prediction System**: Interactive prediction UI with auto-generated feature forms and bulk CSV batch prediction engine.
-- **Model Monitoring & Drift Detection**: Real-time statistical drift tracking (KS-test / Kolmogorov-Smirnov, feature mean/std changes, PSI) comparing production data against baseline reference data.
-- **Automated Retraining**: Retrain models on incoming batches, evaluate improvements against production baseline, and auto-promote superior model versions.
-- **System Diagnostics**: Built-in health check route (`/diagnostics`) inspecting dependencies, file storage systems, and ML pipelines.
+## Technology Stack
 
----
+| Layer            | Technology                      |
+| ---------------- | ------------------------------- |
+| Backend          | Python, Flask                   |
+| Machine Learning | scikit-learn                    |
+| Data Processing  | pandas, NumPy                   |
+| Visualization    | matplotlib                      |
+| Model Storage    | joblib                          |
+| Frontend         | HTML5, CSS3, Vanilla JavaScript |
+| Storage          | Local files / JSON              |
+| Testing          | pytest                          |
+| Deployment       | Docker                          |
 
-## 📁 Repository Directory Architecture
+## Project Structure
 
 ```text
 mlforge/
-├── app.py                      # Flask Application Runner & Factory
-├── config.py                   # Platform Environment Configuration & Constants
-├── requirements.txt            # Python Dependencies Specification
-├── pyproject.toml              # Build & Pytest Configuration
-├── Dockerfile                  # Production Docker Container Definition
-├── README.md                   # Platform Documentation
+├── app.py
+├── config.py
+├── requirements.txt
+├── pyproject.toml
+├── Dockerfile
 │
-├── data/                       # Storage Subsystem (Local File-Based DB)
-│   ├── datasets/               # Stored CSV Datasets & Metadata JSONs
-│   ├── experiments/            # Experiment Run History & Metrics JSONs
-│   ├── models/                 # Serialized (.joblib) Models & Version Meta
-│   ├── predictions/            # Logged Prediction Artifacts
-│   ├── pipelines/              # Saved Pipeline Configurations & Run Logs
-│   ├── monitoring/             # Baseline Distributions & Drift Reports
-│   ├── sample/                 # Preloaded Benchmark CSV Datasets
-│   └── logs/                   # System & Pipeline Log Files
+├── ml/
+│   ├── dataset_loader.py
+│   ├── validation.py
+│   ├── exploration.py
+│   ├── cleaning.py
+│   ├── preprocessing.py
+│   ├── feature_engineering.py
+│   ├── splitting.py
+│   ├── training.py
+│   ├── evaluation.py
+│   ├── comparison.py
+│   ├── prediction.py
+│   ├── batch_prediction.py
+│   ├── pipeline.py
+│   ├── registry.py
+│   ├── monitoring.py
+│   ├── drift.py
+│   └── retraining.py
 │
-├── ml/                         # Machine Learning Core Engine
-│   ├── dataset_loader.py       # Dataset Loading & Inspection Engine
-│   ├── validation.py           # Automated Quality & Schema Validation
-│   ├── exploration.py          # EDA Statistics & Chart Generation Engine
-│   ├── cleaning.py             # Imputation, Outlier, and Duplicate Handlers
-│   ├── preprocessing.py        # Scalers, Encoders, ColumnTransformers
-│   ├── feature_engineering.py  # Feature Transformations & Interaction Generator
-│   ├── splitting.py            # Stratified & Train/Test Split Utility
-│   ├── training.py             # Sklearn Model Training & Hyperparameter Manager
-│   ├── evaluation.py           # Classification & Regression Evaluation Metrics
-│   ├── comparison.py           # Multi-Model Evaluation Comparison Engine
-│   ├── prediction.py           # Online Single-Prediction Engine
-│   ├── batch_prediction.py     # Bulk CSV Prediction Pipeline
-│   ├── pipeline.py             # End-to-End Pipeline Execution DAG Controller
-│   ├── versioning.py           # Model Versioning & Artifact Manager
-│   ├── registry.py             # Model Registry Lifecycle & State Machine
-│   ├── monitoring.py           # Health Score & Monitoring Service
-│   ├── drift.py                # Statistical Data Drift Analyzer (KS-Test/PSI)
-│   └── retraining.py           # Retraining Engine & Auto-Promoter
-│
-├── services/                   # Business Logic & Service Dispatchers
-│   ├── dataset_service.py      # Dataset Metadata & I/O Service
-│   ├── experiment_service.py   # Experiment Indexing Service
-│   ├── model_service.py        # Model Registry Service
-│   ├── pipeline_service.py     # Pipeline Spec & Execution Service
-│   ├── monitoring_service.py   # Health Monitoring Service
-│   └── prediction_service.py   # Online & Batch Prediction Service
-│
-├── routes/                     # HTTP Handlers & API Controllers
-│   ├── dashboard.py            # Main Dashboard Controller
-│   ├── datasets.py             # Dataset Management Routes
-│   ├── pipelines.py            # Pipeline Builder & Executor Routes
-│   ├── experiments.py          # Experiment Tracking Routes
-│   ├── models.py               # Model Registry & Lifecycle Routes
-│   ├── predictions.py          # Prediction & Batch Execution Routes
-│   ├── monitoring.py           # Health & Drift Analytics Routes
-│   └── diagnostics.py          # Platform Health Diagnostic Route
-│
-├── utils/                      # Shared System Utilities
-│   ├── files.py                # Path Security & Safe File I/O Helpers
-│   ├── logging.py              # Central Logger & Pipeline Execution Buffer
-│   ├── metrics.py              # Math & Sklearn Metrics Aggregator
-│   ├── validation.py           # Request Payload & File Schema Validators
-│   └── helpers.py              # Formatting & Date Helper Functions
-│
-├── templates/                  # Server-Rendered HTML Components
-│   ├── base.html               # Main Navigation & Theme Container
-│   ├── dashboard.html          # Key Systems Overview Dashboard
-│   ├── diagnostics.html        # Platform Diagnostics Dashboard
-│   ├── datasets/               # Dataset List, View, Upload, EDA UI
-│   ├── pipelines/              # Visual Builder & Execution History UI
-│   ├── experiments/            # Experiment Run History & Metrics UI
-│   ├── models/                 # Model Registry UI
-│   ├── predictions/            # Prediction Form & CSV Batch UI
-│   └── monitoring/             # Monitoring, Drift & Retraining UI
-│
-├── static/                     # User Interface Assets
-│   ├── css/                    # Modular Responsive CSS Architecture
-│   └── js/                     # Modular Vanilla JavaScript Application Logic
-│
-└── tests/                      # Pytest Test Suite
+├── services/
+├── routes/
+├── utils/
+├── templates/
+├── static/
+├── data/
+└── tests/
 ```
 
----
+## Installation
 
-## 🚀 Quickstart & Setup Guide
+### 1. Create a virtual environment
 
-### 1. Create Virtual Environment
+**Windows**
 
 ```bash
-# Windows
 python -m venv .venv
 .venv\Scripts\activate
+```
 
-# Linux/macOS
+**Linux/macOS**
+
+```bash
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-### 2. Install Dependencies
+### 2. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Initialize Sample Datasets & Launch Platform
+### 3. Generate sample datasets
 
 ```bash
-# Generate sample benchmark datasets (Customer Churn, House Prices, Iris)
 python data/sample/generate_samples.py
+```
 
-# Launch Flask Web Server
+### 4. Start MLForge
+
+```bash
 python app.py
 ```
 
-Open your browser and navigate to: `http://127.0.0.1:5000`
+Open:
 
----
+```text
+http://127.0.0.1:5000
+```
 
-## 🧪 Testing
+## Machine Learning Workflow
 
-Execute the test suite with `pytest`:
+MLForge supports the following workflow:
+
+```text
+Dataset
+   ↓
+Validation
+   ↓
+Data Cleaning
+   ↓
+EDA
+   ↓
+Preprocessing
+   ↓
+Feature Engineering
+   ↓
+Train/Test Split
+   ↓
+Model Training
+   ↓
+Evaluation
+   ↓
+Experiment Tracking
+   ↓
+Model Registry
+   ↓
+Prediction
+   ↓
+Monitoring
+   ↓
+Drift Detection
+   ↓
+Retraining
+```
+
+## Supported Models
+
+### Classification
+
+* Logistic Regression
+* Random Forest
+* Gradient Boosting
+* Support Vector Machine
+* K-Nearest Neighbors
+* Naive Bayes
+* Decision Tree
+* Extra Trees
+
+### Regression
+
+* Linear Regression
+* Ridge
+* Lasso
+* ElasticNet
+* Random Forest
+* Gradient Boosting
+* Decision Tree
+* Extra Trees
+
+## Testing
+
+Run the test suite with:
 
 ```bash
 pytest
 ```
 
----
+## Docker
 
-## 🐳 Running with Docker
+Build the image:
 
 ```bash
 docker build -t mlforge:latest .
+```
+
+Run the application:
+
+```bash
 docker run -p 5000:5000 mlforge:latest
 ```
 
----
+Then open:
 
-## 🔒 Security & Data Local Isolation
+```text
+http://127.0.0.1:5000
+```
 
-- All model training, prediction, data validation, and drift analysis are performed locally inside the Python process.
-- No remote calls, external APIs, cloud compute resources, or third-party databases are utilized.
-- File uploads are validated with strict extensions (`.csv`, `.json`), path-traversal safeguards, and isolated file naming conventions.
-#   M L _ F o r g e  
- 
+## Local-First Architecture
+
+MLForge is designed to operate locally.
+
+* No external database is required.
+* No cloud ML service is required.
+* Models are stored locally.
+* Dataset and experiment metadata are stored locally.
+* Training and prediction run on local hardware.
+* Drift analysis and monitoring run locally.
+
+## Project Goal
+
+MLForge demonstrates the complete **Machine Learning Systems lifecycle**, from dataset ingestion and preprocessing to model training, deployment-style prediction, monitoring, drift detection, and retraining.
