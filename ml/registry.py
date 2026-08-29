@@ -51,3 +51,5 @@ class ModelRegistryStateMachine:
         return updated
 
 # Feature sync: feature/model-registry-state-machine (PR #10)
+
+# Feature sync: feature/model-registry-state-machine (PR #10)
