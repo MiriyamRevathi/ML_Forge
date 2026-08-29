@@ -1,0 +1,9 @@
+{
+    "name": "Unit Test Pipeline",
+    "dataset_id": "customer_churn.csv",
+    "target_column": "churn",
+    "task": "classification",
+    "id": "pipe_20260829_101455_adee3c2c",
+    "created_at": "2026-08-29T10:14:55.187888",
+    "updated_at": "2026-08-29T10:14:55.187888"
+}

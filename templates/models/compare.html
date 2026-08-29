@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Model Comparison Matrix — MLForge{% endblock %}
+{% block page_title %}Multi-Model Evaluation & Benchmark Comparison{% endblock %}
+
+{% block content %}
+<div class="models-compare-page">
+    <!-- Header -->
+    <div class="card">
+        <div class="card-header">
+            <h3>📊 Model Comparison Benchmark Matrix</h3>
+            <a href="{{ url_for('models.index') }}" class="btn btn-sm btn-secondary">← Back to Registry</a>
+        </div>
+
+        {% if comparison.best_model %}
+            <div class="alert alert-success" style="margin-top: 1rem;">
+                <span>🏆 Top Performing Model: <strong>{{ comparison.best_model.name }} ({{ comparison.best_model.version }})</strong> — {{ comparison.primary_metric }}: <strong>{{ comparison.best_model.primary_metric_value }}</strong></span>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Comparison Chart -->
+    {% if comparison.comparison_chart %}
+        <div class="card" style="margin-top: 1.5rem;">
+            <h3>📈 Metric Comparison Chart</h3>
+            <img src="{{ comparison.comparison_chart }}" alt="Model Comparison Chart" style="width: 100%; max-width: 750px; height: auto; border-radius: var(--radius-md); margin-top: 0.5rem;">
+        </div>
+    {% endif %}
+
+    <!-- Models Comparison Table -->
+    <div class="card" style="margin-top: 1.5rem;">
+        <h3>📋 Ranked Performance Matrix</h3>
+        <div class="table-container" style="margin-top: 1rem;">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Version</th>
+                        <th>Model Name</th>
+                        <th>Task</th>
+                        <th>Status</th>
+                        <th>Primary Metric ({{ comparison.primary_metric }})</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for m in comparison.models %}
+                        <tr {% if loop.first %}style="background: rgba(16, 185, 129, 0.08);"{% endif %}>
+                            <td><strong>#{{ loop.index }}</strong> {% if loop.first %}🏆{% endif %}</td>
+                            <td><code>{{ m.version }}</code></td>
+                            <td><strong>{{ m.name }}</strong></td>
+                            <td><span class="badge badge-info">{{ m.task_type }}</span></td>
+                            <td><span class="status-pill status-{{ m.status | lower }}">{{ m.status }}</span></td>
+                            <td><strong style="color: var(--accent-success); font-size: 1.1rem;">{{ m.primary_metric_value }}</strong></td>
+                            <td>
+                                <a href="{{ url_for('models.detail', model_version=m.version) }}" class="btn btn-sm btn-secondary">Inspect</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="empty-cell">No trained models available for comparison. Run an ML pipeline first.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

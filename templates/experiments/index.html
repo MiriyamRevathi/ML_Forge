@@ -20,7 +20,7 @@
                         <th>Model</th>
                         <th>Key Metric</th>
                         <th>Duration</th>
-                        <th>Date</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,7 +43,9 @@
                                 {% endif %}
                             </td>
                             <td>{{ exp.training_duration }}s</td>
-                            <td><small>{{ exp.created_at }}</small></td>
+                            <td>
+                                <a href="{{ url_for('experiments.detail', experiment_id=exp.id) }}" class="btn btn-sm btn-secondary">Inspect</a>
+                            </td>
                         </tr>
                     {% else %}
                         <tr>

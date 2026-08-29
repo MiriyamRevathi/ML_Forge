@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}{{ model.version }} — Model Detail{% endblock %}
+{% block page_title %}Model Inspection: {{ model.name }} ({{ model.version }}){% endblock %}
+
+{% block content %}
+<div class="model-detail-page">
+    <div class="card">
+        <div class="card-header">
+            <h3>📦 Model Version Metadata</h3>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <span class="status-pill status-{{ model.status | lower }}" style="font-size: 0.9rem; padding: 0.4rem 0.8rem;">
+                    {{ model.status }}
+                </span>
+                <a href="{{ url_for('models.index') }}" class="btn btn-sm btn-secondary">← Back to Registry</a>
+            </div>
+        </div>
+
+        <div class="metrics-grid" style="margin-top: 1rem;">
+            <div class="metric-card">
+                <div class="metric-title">Model Version</div>
+                <div class="metric-value" style="font-size: 1.2rem;"><code>{{ model.version }}</code></div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Task Type</div>
+                <div class="metric-value" style="font-size: 1.2rem;">{{ model.task_type | capitalize }}</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Dataset Used</div>
+                <div class="metric-value" style="font-size: 1.2rem;"><code>{{ model.dataset_name }}</code></div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Target Column</div>
+                <div class="metric-value" style="font-size: 1.2rem;"><code>{{ model.target_column }}</code></div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Feature Count</div>
+                <div class="metric-value" style="font-size: 1.2rem;">{{ model.feature_count }}</div>
+            </div>
+        </div>
+
+        <div style="margin-top: 1.5rem;">
+            <h4>Model Features ({{ model.feature_names | length }})</h4>
+            <p><code>{{ model.feature_names | join(', ') }}</code></p>
+        </div>
+    </div>
+
+    <!-- Evaluation Metrics -->
+    {% if model.metrics %}
+        <div class="card" style="margin-top: 1.5rem;">
+            <h3>📊 Evaluation Metrics Summary</h3>
+            <div class="metrics-grid" style="margin-top: 1rem;">
+                {% for k, v in model.metrics.items() %}
+                    {% if k != 'confusion_matrix' %}
+                        <div class="metric-card">
+                            <div class="metric-title">{{ k | replace('_', ' ') | upper }}</div>
+                            <div class="metric-value" style="font-size: 1.3rem;">{{ v }}</div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Hyperparameters -->
+    {% if model.hyperparameters %}
+        <div class="card" style="margin-top: 1.5rem;">
+            <h3>⚙️ Configured Hyperparameters</h3>
+            <div class="table-container" style="margin-top: 1rem;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter Name</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for k, v in model.hyperparameters.items() %}
+                            <tr>
+                                <td><strong>{{ k }}</strong></td>
+                                <td><code>{{ v }}</code></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

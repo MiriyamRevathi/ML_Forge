@@ -1,0 +1,20 @@
+{
+    "id": "exp_20260829_101455_997edd21",
+    "name": "Test Experiment Run",
+    "dataset": "customer_churn.csv",
+    "target": "churn",
+    "task": "classification",
+    "model_name": "Random Forest",
+    "hyperparameters": {
+        "n_estimators": 100
+    },
+    "metrics": {
+        "accuracy": 0.92,
+        "accuracy_percentage": 92.0
+    },
+    "training_duration": 1.45,
+    "model_version": null,
+    "pipeline_id": null,
+    "status": "COMPLETED",
+    "created_at": "2026-08-29T10:14:55.209723"
+}

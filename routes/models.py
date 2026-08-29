@@ -1,11 +1,13 @@
 """
 MLForge - Model Registry Routes Blueprint
-Renders model registry lifecycle status board (TRAINED, STAGING, PRODUCTION, ARCHIVED)
-and handles status promotions or state transitions.
+Renders model registry lifecycle status board (TRAINED, STAGING, PRODUCTION, ARCHIVED),
+model detail inspection, model comparison views, and state promotion endpoints.
 """
 
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash
 from services.model_service import ModelService
+from ml.comparison import ModelComparer
+from ml.registry import ModelRegistryStateMachine
 
 models_bp = Blueprint("models", __name__, url_prefix="/models")
 
@@ -13,11 +15,27 @@ models_bp = Blueprint("models", __name__, url_prefix="/models")
 @models_bp.route("/")
 def index():
     """
-    Renders Model Registry dashboard.
+    Renders Model Registry lifecycle dashboard.
     """
     models = ModelService.list_models()
     return render_template(
         "models/index.html",
+        models=models,
+        active_tab="models"
+    )
+
+
+@models_bp.route("/compare")
+def compare():
+    """
+    Renders model evaluation comparison matrix and benchmark chart.
+    """
+    models = ModelService.list_models()
+    comparison_results = ModelComparer.compare_models(models)
+    
+    return render_template(
+        "models/compare.html",
+        comparison=comparison_results,
         models=models,
         active_tab="models"
     )
@@ -29,6 +47,10 @@ def detail(model_version):
     Renders detailed view for a model version.
     """
     model = ModelService.get_model_metadata(model_version)
+    if not model:
+        flash(f"Model version '{model_version}' not found.", "danger")
+        return redirect(url_for("models.index"))
+        
     return render_template(
         "models/detail.html",
         model=model,

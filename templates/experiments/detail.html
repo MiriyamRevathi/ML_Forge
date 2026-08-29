@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}{{ experiment.name }} — Experiment Detail{% endblock %}
+{% block page_title %}Experiment Inspection: {{ experiment.name }}{% endblock %}
+
+{% block content %}
+<div class="experiment-detail-page">
+    <div class="card">
+        <div class="card-header">
+            <h3>🧪 Experiment Run Summary</h3>
+            <a href="{{ url_for('experiments.index') }}" class="btn btn-sm btn-secondary">← Back to Experiments</a>
+        </div>
+
+        <div class="metrics-grid" style="margin-top: 1rem;">
+            <div class="metric-card">
+                <div class="metric-title">Experiment ID</div>
+                <div class="metric-value" style="font-size: 1.1rem;"><code>{{ experiment.id }}</code></div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Dataset</div>
+                <div class="metric-value" style="font-size: 1.1rem;"><code>{{ experiment.dataset }}</code></div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Model Name</div>
+                <div class="metric-value" style="font-size: 1.1rem;">{{ experiment.model_name }}</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Model Version Created</div>
+                <div class="metric-value" style="font-size: 1.1rem;">
+                    {% if experiment.model_version %}
+                        <a href="{{ url_for('models.detail', model_version=experiment.model_version) }}"><code>{{ experiment.model_version }}</code></a>
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Training Duration</div>
+                <div class="metric-value" style="font-size: 1.1rem;">{{ experiment.training_duration }}s</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Metrics -->
+    {% if experiment.metrics %}
+        <div class="card" style="margin-top: 1.5rem;">
+            <h3>📊 Logged Metrics</h3>
+            <div class="metrics-grid" style="margin-top: 1rem;">
+                {% for k, v in experiment.metrics.items() %}
+                    {% if k != 'confusion_matrix' %}
+                        <div class="metric-card">
+                            <div class="metric-title">{{ k | replace('_', ' ') | upper }}</div>
+                            <div class="metric-value" style="font-size: 1.2rem;">{{ v }}</div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Hyperparameters -->
+    {% if experiment.hyperparameters %}
+        <div class="card" style="margin-top: 1.5rem;">
+            <h3>⚙️ Logged Hyperparameters</h3>
+            <div class="table-container" style="margin-top: 1rem;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Hyperparameter</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for k, v in experiment.hyperparameters.items() %}
+                            <tr>
+                                <td><strong>{{ k }}</strong></td>
+                                <td><code>{{ v }}</code></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
