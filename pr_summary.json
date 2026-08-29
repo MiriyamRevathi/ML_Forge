@@ -1,0 +1,82 @@
+[
+  {
+    "index": 2,
+    "branch": "feature/data-quality-engine",
+    "title": "Add Automated 15+ Data Quality Check Engine and Quality Scoring",
+    "number": 1,
+    "url": "https://github.com/MiriyamRevathi/ML_Forge/pull/1",
+    "status": "MERGED"
+  },
+  {
+    "index": 3,
+    "branch": "feature/eda-visualization-suite",
+    "title": "Implement Headless Matplotlib EDA Engine and Visual Analytics",
+    "number": 2,
+    "url": "https://github.com/MiriyamRevathi/ML_Forge/pull/2",
+    "status": "MERGED"
+  },
+  {
+    "index": 4,
+    "branch": "feature/data-cleaning-normalizer",
+    "title": "Introduce Configurable Imputation, Outlier Handling, and Cleaning Strategies",
+    "number": 3,
+    "url": "https://github.com/MiriyamRevathi/ML_Forge/pull/3",
+    "status": "MERGED"
+  },
+  {
+    "index": 5,
+    "branch": "feature/preprocessing-feature-engineering",
+    "title": "Add Preprocessing ColumnTransformer and Feature Engineering Suite",
+    "number": 4,
+    "url": "https://github.com/MiriyamRevathi/ML_Forge/pull/4",
+    "status": "MERGED"
+  },
+  {
+    "index": 6,
+    "branch": "feature/pipeline-dag-engine",
+    "title": "Implement DAG ML Pipeline Engine, Stage Executor, and Run Persistence",
+    "number": 5,
+    "url": "https://github.com/MiriyamRevathi/ML_Forge/pull/5",
+    "status": "MERGED"
+  },
+  {
+    "index": 7,
+    "branch": "feature/model-training-catalogue",
+    "title": "Add 20 Algorithm Scikit-Learn Model Catalogue, CV, and Hyperparameter Tuning",
+    "number": 7,
+    "url": "https://github.com/MiriyamRevathi/ML_Forge/pull/7",
+    "status": "MERGED"
+  },
+  {
+    "index": 8,
+    "branch": "feature/evaluation-model-comparison",
+    "title": "Implement Model Metrics Evaluator and Multi-Model Benchmark Comparison",
+    "number": 9,
+    "url": "https://github.com/MiriyamRevathi/ML_Forge/pull/9",
+    "status": "MERGED"
+  },
+  {
+    "index": 9,
+    "branch": "feature/experiment-tracking-system",
+    "title": "Add Local Experiment Tracker, Parameter Store, and Metrics History",
+    "number": 11,
+    "url": "https://github.com/MiriyamRevathi/ML_Forge/pull/11",
+    "status": "MERGED"
+  },
+  {
+    "index": 10,
+    "branch": "feature/model-registry-state-machine",
+    "title": "Implement Model Registry Lifecycle State Machine and Version Control",
+    "number": 13,
+    "url": "https://github.com/MiriyamRevathi/ML_Forge/pull/13",
+    "status": "MERGED"
+  },
+  {
+    "index": 12,
+    "branch": "feature/monitoring-drift-retraining",
+    "title": "Implement Data Drift Kolmogorov-Smirnov Analyzer, Health Scores, and Auto-Retraining",
+    "number": 16,
+    "url": "https://github.com/MiriyamRevathi/ML_Forge/pull/16",
+    "status": "MERGED"
+  }
+]
