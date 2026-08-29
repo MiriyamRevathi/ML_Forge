@@ -122,3 +122,5 @@ class DataDriftDetector:
         # Save drift report to monitoring storage
         MonitoringService.save_drift_report(report_data)
         return report_data
+
+# Feature sync: feature/monitoring-drift-retraining (PR #12)
