@@ -8,7 +8,11 @@
     <div class="card">
         <div class="card-header">
             <h3>📁 Metadata Summary</h3>
-            <a href="{{ url_for('datasets.index') }}" class="btn btn-sm btn-secondary">← Back to Datasets</a>
+            <div style="display: flex; gap: 0.5rem;">
+                <a href="{{ url_for('datasets.validation', dataset_id=dataset.id) }}" class="btn btn-sm btn-secondary">🔍 Validate Quality</a>
+                <a href="{{ url_for('datasets.eda', dataset_id=dataset.id) }}" class="btn btn-sm btn-primary">📊 EDA Visualizations</a>
+                <a href="{{ url_for('datasets.index') }}" class="btn btn-sm btn-secondary">← Back to Datasets</a>
+            </div>
         </div>
         
         <div class="metrics-grid" style="margin-top: 1rem;">

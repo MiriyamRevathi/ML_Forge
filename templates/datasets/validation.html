@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Data Quality Audit — {{ dataset.name }}{% endblock %}
+{% block page_title %}Data Quality Audit: {{ dataset.name }}{% endblock %}
+
+{% block content %}
+<div class="validation-page">
+    <div class="card">
+        <div class="card-header">
+            <h3>🔍 Automated Quality Check Results</h3>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <span class="badge {% if report.is_valid %}badge-success{% else %}badge-danger{% endif %}" style="font-size: 1rem; padding: 0.5rem 1rem;">
+                    Quality Score: {{ report.score }}/100
+                </span>
+                <a href="{{ url_for('datasets.detail', dataset_id=dataset.id) }}" class="btn btn-sm btn-secondary">← Back to Dataset</a>
+            </div>
+        </div>
+
+        <div class="table-container" style="margin-top: 1.5rem;">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Quality Rule Check</th>
+                        <th>Status Badge</th>
+                        <th>Severity</th>
+                        <th>Detailed Inspection Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for check in report.checks %}
+                        <tr>
+                            <td><strong>{{ check.rule }}</strong></td>
+                            <td><span class="badge badge-{{ 'success' if check.status == 'PASS' else ('warning' if check.status == 'WARN' else 'danger') }}">{{ check.badge }}</span></td>
+                            <td><code>{{ check.severity }}</code></td>
+                            <td>{{ check.message }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

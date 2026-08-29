@@ -1,7 +1,7 @@
 """
 MLForge - Dataset Management Service Module
 Provides dataset file access, metadata tracking, CSV preview generation,
-file listing, dataset registration, and dataset deletion operations.
+file listing, dataset registration, validation audit, and EDA report generation.
 """
 
 import pandas as pd
@@ -11,11 +11,14 @@ from typing import Dict, List, Any, Optional
 from config import DATASET_DIR, SAMPLE_DIR
 from utils.files import load_json, save_json, delete_file, get_file_size_formatted, list_files_in_dir
 from utils.helpers import get_current_timestamp_iso, generate_unique_id
+from ml.dataset_loader import DatasetLoader
+from ml.validation import DataValidator
+from ml.exploration import ExploratoryDataAnalysis
 
 
 class DatasetService:
     """
-    Service responsible for dataset operations and metadata management.
+    Service responsible for dataset operations, validation audits, and EDA chart generation.
     """
     
     @staticmethod
@@ -77,15 +80,15 @@ class DatasetService:
         return None
 
     @staticmethod
-    def load_dataset_dataframe(dataset_id: str) -> pd.DataFrame:
+    def load_dataset_dataframe(dataset_id: str, max_rows: Optional[int] = None) -> pd.DataFrame:
         """
-        Reads dataset CSV file into a Pandas DataFrame.
+        Reads dataset CSV file into a Pandas DataFrame using DatasetLoader.
         """
         csv_path = DatasetService.get_dataset_csv_path(dataset_id)
         if not csv_path or not csv_path.exists():
             raise FileNotFoundError(f"Dataset CSV for ID '{dataset_id}' not found.")
             
-        return pd.read_csv(csv_path)
+        return DatasetLoader.load_csv(csv_path, max_rows=max_rows)
 
     @staticmethod
     def register_dataset(
@@ -104,14 +107,11 @@ class DatasetService:
         dest_filename = f"{dataset_id}.csv"
         dest_path = DATASET_DIR / dest_filename
         
-        # Read df to gather statistics
         df = pd.read_csv(filepath)
-        
-        # Copy CSV to dataset dir
         df.to_csv(dest_path, index=False)
         
         num_cols = list(df.select_dtypes(include=[np.number]).columns)
-        cat_cols = list(df.select_dtypes(include=['object', 'category']).columns)
+        cat_cols = list(df.select_dtypes(include=['object', 'category', 'bool']).columns)
         
         metadata = {
             "id": dataset_id,
@@ -134,6 +134,54 @@ class DatasetService:
         meta_path = DATASET_DIR / f"{dataset_id}_meta.json"
         save_json(metadata, meta_path)
         return metadata
+
+    @staticmethod
+    def validate_dataset(dataset_id: str) -> Dict[str, Any]:
+        """
+        Executes data quality checks on dataset and returns validation report.
+        """
+        meta = DatasetService.get_dataset_metadata(dataset_id)
+        if not meta:
+            raise FileNotFoundError(f"Dataset ID '{dataset_id}' not found.")
+            
+        df = DatasetService.load_dataset_dataframe(dataset_id)
+        target_col = meta.get("target_column")
+        
+        audit_results = DataValidator.validate_dataset(df, target_column=target_col)
+        audit_results["dataset"] = meta
+        return audit_results
+
+    @staticmethod
+    def run_eda(dataset_id: str) -> Dict[str, Any]:
+        """
+        Generates comprehensive Exploratory Data Analysis report with statistical summaries and base64 Matplotlib charts.
+        """
+        meta = DatasetService.get_dataset_metadata(dataset_id)
+        if not meta:
+            raise FileNotFoundError(f"Dataset ID '{dataset_id}' not found.")
+            
+        df = DatasetService.load_dataset_dataframe(dataset_id)
+        target_col = meta.get("target_column", "")
+        
+        num_stats = ExploratoryDataAnalysis.get_numerical_statistics(df)
+        cat_stats = ExploratoryDataAnalysis.get_categorical_statistics(df)
+        corr_matrix = ExploratoryDataAnalysis.get_correlation_matrix(df)
+        
+        charts = {
+            "distribution": ExploratoryDataAnalysis.create_distribution_chart(df),
+            "boxplot": ExploratoryDataAnalysis.create_box_plot_chart(df),
+            "correlation": ExploratoryDataAnalysis.create_correlation_heatmap(df),
+            "missing_values": ExploratoryDataAnalysis.create_missing_values_chart(df),
+            "target": ExploratoryDataAnalysis.create_target_distribution_chart(df, target_col)
+        }
+        
+        return {
+            "dataset": meta,
+            "numerical_statistics": num_stats,
+            "categorical_statistics": cat_stats,
+            "correlation_matrix": corr_matrix,
+            "charts": charts
+        }
 
     @staticmethod
     def delete_dataset(dataset_id: str) -> bool:

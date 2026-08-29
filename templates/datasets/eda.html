@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}EDA Report — {{ dataset.name }}{% endblock %}
+{% block page_title %}Exploratory Data Analysis (EDA): {{ dataset.name }}{% endblock %}
+
+{% block content %}
+<div class="eda-page">
+    <!-- Header Controls -->
+    <div class="card">
+        <div class="card-header">
+            <h3>📊 Statistical Summaries & Feature Visualizations</h3>
+            <a href="{{ url_for('datasets.detail', dataset_id=dataset.id) }}" class="btn btn-sm btn-secondary">← Back to Dataset</a>
+        </div>
+    </div>
+
+    <!-- Generated Matplotlib Charts Grid -->
+    <div class="dashboard-columns-grid" style="margin-top: 1.5rem;">
+        <!-- Target Chart -->
+        {% if eda.charts.target %}
+            <div class="card">
+                <h3>🎯 Target Variable Distribution</h3>
+                <img src="{{ eda.charts.target }}" alt="Target Distribution Chart" style="width: 100%; height: auto; border-radius: var(--radius-md); margin-top: 0.5rem;">
+            </div>
+        {% endif %}
+
+        <!-- Correlation Heatmap -->
+        {% if eda.charts.correlation %}
+            <div class="card">
+                <h3>🌡️ Pearson Correlation Heatmap</h3>
+                <img src="{{ eda.charts.correlation }}" alt="Correlation Heatmap Matrix" style="width: 100%; height: auto; border-radius: var(--radius-md); margin-top: 0.5rem;">
+            </div>
+        {% endif %}
+
+        <!-- Feature Distribution Histograms -->
+        {% if eda.charts.distribution %}
+            <div class="card">
+                <h3>📈 Feature Distribution Histograms</h3>
+                <img src="{{ eda.charts.distribution }}" alt="Feature Distributions" style="width: 100%; height: auto; border-radius: var(--radius-md); margin-top: 0.5rem;">
+            </div>
+        {% endif %}
+
+        <!-- Outlier Box Plots -->
+        {% if eda.charts.boxplot %}
+            <div class="card">
+                <h3>📦 Numerical Outlier Box Plots (Z-Score)</h3>
+                <img src="{{ eda.charts.boxplot }}" alt="Boxplot Outliers" style="width: 100%; height: auto; border-radius: var(--radius-md); margin-top: 0.5rem;">
+            </div>
+        {% endif %}
+
+        <!-- Missing Values Chart -->
+        {% if eda.charts.missing_values %}
+            <div class="card">
+                <h3>⚠️ Missing Values Distribution</h3>
+                <img src="{{ eda.charts.missing_values }}" alt="Missing Values Chart" style="width: 100%; height: auto; border-radius: var(--radius-md); margin-top: 0.5rem;">
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Numerical Feature Statistics Table -->
+    {% if eda.numerical_statistics %}
+        <div class="card" style="margin-top: 1.5rem;">
+            <h3>🔢 Numerical Feature Statistics</h3>
+            <div class="table-container" style="margin-top: 1rem;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Count</th>
+                            <th>Mean</th>
+                            <th>Std Dev</th>
+                            <th>Min</th>
+                            <th>25%</th>
+                            <th>Median (50%)</th>
+                            <th>75%</th>
+                            <th>Max</th>
+                            <th>Skewness</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for col, stats in eda.numerical_statistics.items() %}
+                            <tr>
+                                <td><strong>{{ col }}</strong></td>
+                                <td>{{ stats.count }}</td>
+                                <td>{{ stats.mean }}</td>
+                                <td>{{ stats.std }}</td>
+                                <td>{{ stats.min }}</td>
+                                <td>{{ stats.q25 }}</td>
+                                <td>{{ stats.median }}</td>
+                                <td>{{ stats.q75 }}</td>
+                                <td>{{ stats.max }}</td>
+                                <td>{{ stats.skewness }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Categorical Feature Statistics Table -->
+    {% if eda.categorical_statistics %}
+        <div class="card" style="margin-top: 1.5rem;">
+            <h3>🔤 Categorical Feature Frequency Summaries</h3>
+            <div class="table-container" style="margin-top: 1rem;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Count</th>
+                            <th>Unique Values</th>
+                            <th>Most Frequent (Top)</th>
+                            <th>Top Frequency</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for col, stats in eda.categorical_statistics.items() %}
+                            <tr>
+                                <td><strong>{{ col }}</strong></td>
+                                <td>{{ stats.count }}</td>
+                                <td>{{ stats.unique }}</td>
+                                <td><code>{{ stats.top }}</code></td>
+                                <td>{{ stats.freq }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -26,7 +26,8 @@ def run_system_health_checks():
     
     # 1. Dependency checks
     try:
-        checks["Flask"] = {"status": "PASS", "version": flask.__version__}
+        from importlib.metadata import version
+        checks["Flask"] = {"status": "PASS", "version": version("flask")}
     except Exception as e:
         checks["Flask"] = {"status": "FAIL", "error": str(e)}
         

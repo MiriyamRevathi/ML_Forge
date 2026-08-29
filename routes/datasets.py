@@ -1,10 +1,11 @@
 """
 MLForge - Dataset Routes Blueprint
-Provides HTTP endpoints for dataset upload, dataset inspection, preview,
-validation, metadata retrieval, and dataset deletion.
+Provides HTTP endpoints for dataset upload, inspection, preview, validation audit,
+Exploratory Data Analysis (EDA) charts, metadata, and deletion.
 """
 
 import os
+from pathlib import Path
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash
 from services.dataset_service import DatasetService
 from utils.files import sanitize_filename
@@ -42,8 +43,6 @@ def upload_dataset():
         target_column = request.form.get("target_column", "").strip() or None
         task_type = request.form.get("task_type", "classification")
         
-        # Save temp file
-        temp_path = DatasetService.get_dataset_csv_path("temp") or (DatasetService.list_datasets()[0] if DatasetService.list_datasets() else None)
         import tempfile
         with tempfile.NamedTemporaryFile(delete=False, suffix=".csv") as tmp:
             file.save(tmp.name)
@@ -56,7 +55,6 @@ def upload_dataset():
             task_type=task_type
         )
         
-        # Clean temp
         if os.path.exists(tmp_path):
             os.remove(tmp_path)
             
@@ -81,8 +79,8 @@ def detail(dataset_id):
         
     preview_data = []
     try:
-        df = DatasetService.load_dataset_dataframe(dataset_id)
-        preview_data = df.head(10).to_dict(orient="records")
+        df = DatasetService.load_dataset_dataframe(dataset_id, max_rows=10)
+        preview_data = df.to_dict(orient="records")
     except Exception as e:
         flash(f"Warning: Could not read dataset preview: {e}", "warning")
         
@@ -92,6 +90,42 @@ def detail(dataset_id):
         preview_data=preview_data,
         active_tab="datasets"
     )
+
+
+@datasets_bp.route("/<dataset_id>/validation")
+def validation(dataset_id):
+    """
+    Runs automated data quality & validation suite and renders report.
+    """
+    try:
+        report = DatasetService.validate_dataset(dataset_id)
+        return render_template(
+            "datasets/validation.html",
+            report=report,
+            dataset=report["dataset"],
+            active_tab="datasets"
+        )
+    except Exception as e:
+        flash(f"Data validation failed: {str(e)}", "danger")
+        return redirect(url_for("datasets.detail", dataset_id=dataset_id))
+
+
+@datasets_bp.route("/<dataset_id>/eda")
+def eda(dataset_id):
+    """
+    Executes Exploratory Data Analysis (EDA) and renders interactive chart report.
+    """
+    try:
+        eda_data = DatasetService.run_eda(dataset_id)
+        return render_template(
+            "datasets/eda.html",
+            eda=eda_data,
+            dataset=eda_data["dataset"],
+            active_tab="datasets"
+        )
+    except Exception as e:
+        flash(f"EDA generation failed: {str(e)}", "danger")
+        return redirect(url_for("datasets.detail", dataset_id=dataset_id))
 
 
 @datasets_bp.route("/<dataset_id>/delete", methods=["POST"])
@@ -112,3 +146,13 @@ def delete_dataset(dataset_id):
 def api_list():
     """Returns JSON list of all available datasets."""
     return jsonify({"status": "success", "datasets": DatasetService.list_datasets()})
+
+
+@datasets_bp.route("/api/<dataset_id>/eda")
+def api_eda(dataset_id):
+    """Returns JSON response of EDA statistics and charts."""
+    try:
+        eda_data = DatasetService.run_eda(dataset_id)
+        return jsonify({"status": "success", "data": eda_data})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 400
