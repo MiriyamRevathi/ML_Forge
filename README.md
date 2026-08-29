@@ -124,6 +124,9 @@ source .venv/bin/activate
 
 ```bash
 pip install -r requirements.txt
+
+# Reproducible installs (the lock file is regenerated when dependencies change)
+pip install -r requirements.lock
 ```
 
 ### 3. Initialize Sample Datasets & Launch Platform
@@ -148,6 +151,9 @@ Execute the test suite with `pytest`:
 pytest
 ```
 
+The application dependencies are listed in `requirements.txt`; `requirements.lock`
+pins the versions used for the verified local build.
+
 ---
 
 ## 🐳 Running with Docker
@@ -164,5 +170,6 @@ docker run -p 5000:5000 mlforge:latest
 - All model training, prediction, data validation, and drift analysis are performed locally inside the Python process.
 - No remote calls, external APIs, cloud compute resources, or third-party databases are utilized.
 - File uploads are validated with strict extensions (`.csv`, `.json`), path-traversal safeguards, and isolated file naming conventions.
-#   M L _ F o r g e  
+#   M L _ F o r g e 
+ 
  

@@ -13,3 +13,15 @@ htmlcov/
 *.swp
 .idea/
 .vscode/
+
+# Runtime artifacts are local outputs, not source history.
+data/logs/*
+data/experiments/*
+data/models/*.joblib
+data/models/*_meta.json
+data/monitoring/*
+data/pipelines/*
+data/predictions/*
+data/datasets/*_meta.json
+data/datasets/*.png
+!data/**/.gitkeep
