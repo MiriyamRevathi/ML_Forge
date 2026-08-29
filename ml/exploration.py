@@ -257,3 +257,5 @@ class ExploratoryDataAnalysis:
         
         plt.tight_layout()
         return ExploratoryDataAnalysis.generate_chart_base64(fig)
+
+# Feature sync: feature/eda-visualization-suite (PR #3)
