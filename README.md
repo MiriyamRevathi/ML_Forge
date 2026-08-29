@@ -24,15 +24,7 @@ MLForge enables end-to-end management of the machine learning lifecycle with **r
 
 ```text
 mlforge/
-├── app.py                      # Flask Application Runner & Factory
-├── config.py                   # Platform Environment Configuration & Constants
-├── requirements.txt            # Python Dependencies Specification
-├── pyproject.toml              # Build & Pytest Configuration
-├── Dockerfile                  # Production Docker Container Definition
-├── README.md                   # Platform Documentation
-│
-├── data/                       # Storage Subsystem (Local File-Based DB)
-│   ├── datasets/               # Stored CSV Datasets & Metadata JSONs
+- **Persistent Job Operations**: Durable local job records with queued, running, retryable, cancellable, and completed states exposed through `/api/jobs`.
 │   ├── experiments/            # Experiment Run History & Metrics JSONs
 │   ├── models/                 # Serialized (.joblib) Models & Version Meta
 │   ├── predictions/            # Logged Prediction Artifacts

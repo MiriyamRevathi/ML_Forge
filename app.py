@@ -17,6 +17,7 @@ from routes.models import models_bp
 from routes.predictions import predictions_bp
 from routes.monitoring import monitoring_bp
 from routes.diagnostics import diagnostics_bp
+from routes.jobs import jobs_bp
 
 
 def create_app() -> Flask:
@@ -42,6 +43,7 @@ def create_app() -> Flask:
     app.register_blueprint(predictions_bp)
     app.register_blueprint(monitoring_bp)
     app.register_blueprint(diagnostics_bp)
+    app.register_blueprint(jobs_bp)
     
     # Custom Error Handlers
     @app.errorhandler(404)
