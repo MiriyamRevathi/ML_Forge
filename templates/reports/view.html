@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} — MLForge{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="report-view-page">
+    <div class="card">
+        <div class="card-header">
+            <h3>📜 Report Reader</h3>
+            <a href="{{ url_for('reports.index') }}" class="btn btn-sm btn-secondary">← Back to Reports</a>
+        </div>
+        
+        <div class="markdown-body" style="background: var(--bg-secondary); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); margin-top: 1rem; white-space: pre-wrap; font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-primary); line-height: 1.6;">
+{{ markdown_content }}
+        </div>
+    </div>
+</div>
+{% endblock %}

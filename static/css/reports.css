@@ -1,0 +1,41 @@
+/* MLForge - Platform Reports & Markdown Viewer Stylesheet */
+
+.reports-page, .report-view-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.markdown-body {
+    font-family: var(--font-mono);
+    line-height: 1.6;
+    color: var(--text-primary);
+}
+
+.markdown-body h1, .markdown-body h2, .markdown-body h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.4rem;
+    color: var(--text-primary);
+}
+
+.markdown-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+}
+
+.markdown-body th, .markdown-body td {
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 0.8rem;
+}
+
+.markdown-body th {
+    background-color: var(--bg-secondary);
+}
+
+.markdown-body ul, .markdown-body ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}

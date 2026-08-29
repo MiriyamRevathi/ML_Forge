@@ -1,0 +1,39 @@
+/* MLForge - Mobile & Responsive Layout Adjustments Stylesheet */
+
+@media (max-width: 1024px) {
+    .metrics-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+    
+    .dashboard-columns-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .pipeline-visual-dag {
+        flex-wrap: nowrap;
+        overflow-x: scroll;
+    }
+}
+
+@media (max-width: 768px) {
+    .content-area {
+        padding: 1rem;
+    }
+    
+    .top-navbar {
+        padding: 0 1rem;
+    }
+    
+    .card {
+        padding: 1rem;
+    }
+    
+    .data-table th, .data-table td {
+        padding: 0.5rem 0.6rem;
+        font-size: 0.8rem;
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}

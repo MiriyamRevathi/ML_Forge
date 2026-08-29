@@ -1,0 +1,43 @@
+/* MLForge - Model Registry & Model System Stylesheet */
+
+.models-page, .model-detail-page, .models-compare-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.registry-board {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+}
+
+.model-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.model-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.feature-importance-bar-container {
+    width: 100%;
+    background-color: var(--bg-tertiary);
+    height: 8px;
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.feature-importance-fill {
+    height: 100%;
+    background-color: var(--accent-primary);
+    border-radius: var(--radius-full);
+}

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Data Quality Audit — {{ dataset.name }}{% endblock %}
+{% block page_title %}Data Quality Audit & Remediation: {{ dataset.name }}{% endblock %}
+
+{% block content %}
+<div class="quality-detail-page">
+    <div class="card">
+        <div class="card-header">
+            <h3>🔍 Overall Quality Score & Dimensional Breakdown</h3>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <span class="badge {{ scoring.grade_badge }}" style="font-size: 1.1rem; padding: 0.5rem 1rem;">
+                    Grade {{ scoring.grade }} (Score: {{ scoring.weighted_score }}/100)
+                </span>
+                <a href="{{ url_for('quality.index') }}" class="btn btn-sm btn-secondary">← Back to Quality Audits</a>
+            </div>
+        </div>
+
+        <!-- 5 Dimensional Scores -->
+        <div class="metrics-grid" style="margin-top: 1rem;">
+            <div class="metric-card">
+                <div class="metric-title">Completeness</div>
+                <div class="metric-value">{{ scoring.dimensions.completeness }}%</div>
+                <div class="metric-subtext">Missing value density check</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Validity</div>
+                <div class="metric-value">{{ scoring.dimensions.validity }}%</div>
+                <div class="metric-subtext">Infinite & outlier checks</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Uniqueness</div>
+                <div class="metric-value">{{ scoring.dimensions.uniqueness }}%</div>
+                <div class="metric-subtext">Duplicate rows & columns</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Consistency</div>
+                <div class="metric-value">{{ scoring.dimensions.consistency }}%</div>
+                <div class="metric-subtext">Variance & target leakage</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Balance</div>
+                <div class="metric-value">{{ scoring.dimensions.balance }}%</div>
+                <div class="metric-subtext">Class proportion audit</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Remediation Recommendations -->
+    {% if scoring.remediations %}
+        <div class="card" style="margin-top: 1.5rem; border-color: var(--accent-warning);">
+            <div class="card-header">
+                <h3>💡 Recommended Data Cleaning & Remediation Actions</h3>
+            </div>
+            <ul>
+                {% for rem in scoring.remediations %}
+                    <li style="margin-left: 1.5rem; margin-bottom: 0.5rem; color: var(--text-primary);">{{ rem }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- Detailed Quality Rule Table -->
+    <div class="card" style="margin-top: 1.5rem;">
+        <h3>📋 Detailed Rule Execution Results ({{ quality.checks | length }} Rules Checked)</h3>
+        <div class="table-container" style="margin-top: 1rem;">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Rule ID</th>
+                        <th>Rule Check Name</th>
+                        <th>Status</th>
+                        <th>Severity</th>
+                        <th>Detailed Inspection Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for check in quality.checks %}
+                        <tr>
+                            <td><code>{{ check.rule_id }}</code></td>
+                            <td><strong>{{ check.name }}</strong></td>
+                            <td><span class="badge badge-{{ 'success' if check.status == 'PASS' else ('warning' if check.status == 'WARN' else 'danger') }}">{{ check.badge }}</span></td>
+                            <td><code>{{ check.severity }}</code></td>
+                            <td>{{ check.message }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

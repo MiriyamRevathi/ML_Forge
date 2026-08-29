@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Single Prediction — MLForge{% endblock %}
+{% block page_title %}Online Real-Time Single Inference Form{% endblock %}
+
+{% block content %}
+<div class="predictions-single-page">
+    <div class="card">
+        <div class="card-header">
+            <h3>🎯 Select Model Version & Input Features</h3>
+            <a href="{{ url_for('predictions.index') }}" class="btn btn-sm btn-secondary">← Back to Predictions</a>
+        </div>
+
+        <form action="{{ url_for('predictions.single_predict') }}" method="POST" style="margin-top: 1.5rem;">
+            <div class="form-group">
+                <label for="model_version" class="form-label">Model Version *</label>
+                <select id="model_version" name="model_version" class="form-control" onchange="MLForgePredictions.loadSchema(this.value)">
+                    <option value="">-- Select Model Version --</option>
+                    {% for m in models %}
+                        <option value="{{ m.version }}">
+                            {{ m.version }} — {{ m.model_name }} ({{ m.task_type.title() }} - {{ m.status }})
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Dynamic Input Form Container -->
+            <div id="dynamic_feature_form" class="form-grid" style="margin-top: 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+                <p class="text-muted">Select a model version above to generate feature input fields.</p>
+            </div>
+
+            <div style="margin-top: 2rem; display: flex; justify-content: flex-end;">
+                <button type="submit" class="btn btn-primary">⚡ Execute Prediction</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

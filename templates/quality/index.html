@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Data Quality Audits — MLForge{% endblock %}
+{% block page_title %}Data Quality Inspection & Remediation Workspace{% endblock %}
+
+{% block content %}
+<div class="quality-index-page">
+    <div class="card">
+        <h3>🔍 Select Dataset for Comprehensive Data Quality Audit</h3>
+        <p class="section-desc">Executes 15+ automated data quality rule inspections: completeness, duplicate rows/columns, constant features, missingness density, extreme outliers, target leakage indicators, and class balance.</p>
+
+        <div class="table-container" style="margin-top: 1rem;">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Dataset ID</th>
+                        <th>Name</th>
+                        <th>Target Column</th>
+                        <th>Task</th>
+                        <th>Rows</th>
+                        <th>Columns</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ds in datasets %}
+                        <tr>
+                            <td><code>{{ ds.id }}</code></td>
+                            <td><strong>{{ ds.name }}</strong></td>
+                            <td><code>{{ ds.target_column }}</code></td>
+                            <td><span class="badge badge-info">{{ ds.task_type }}</span></td>
+                            <td>{{ ds.rows }}</td>
+                            <td>{{ ds.columns }}</td>
+                            <td>
+                                <a href="{{ url_for('quality.audit_detail', dataset_id=ds.id) }}" class="btn btn-sm btn-primary">🔍 Execute Quality Audit</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="empty-cell">No datasets available for quality audit. Upload a CSV dataset first.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

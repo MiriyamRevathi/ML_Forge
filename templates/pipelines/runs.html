@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Pipeline Execution Runs — MLForge{% endblock %}
+{% block page_title %}Pipeline Execution History & Logs{% endblock %}
+
+{% block content %}
+<div class="pipeline-runs-page">
+    <div class="card">
+        <div class="card-header">
+            <h3>⚡ All Pipeline Execution Runs</h3>
+            <a href="{{ url_for('pipelines.builder') }}" class="btn btn-sm btn-primary">+ Build New Pipeline</a>
+        </div>
+
+        <div class="table-container" style="margin-top: 1.5rem;">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Run ID</th>
+                        <th>Pipeline Name</th>
+                        <th>Status</th>
+                        <th>Model Version</th>
+                        <th>Duration</th>
+                        <th>Executed At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for run in runs %}
+                        <tr>
+                            <td><code>{{ run.run_id }}</code></td>
+                            <td><strong>{{ run.pipeline_name }}</strong></td>
+                            <td><span class="badge badge-success">{{ run.status }}</span></td>
+                            <td><code>{{ run.model_version }}</code></td>
+                            <td>{{ run.duration_seconds }}s</td>
+                            <td>{{ run.timestamp }}</td>
+                            <td>
+                                <a href="{{ url_for('pipelines.run_detail', run_id=run.run_id) }}" class="btn btn-sm btn-secondary">Logs & Metrics</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="empty-cell">No pipeline runs executed yet. Build and execute a pipeline DAG first.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

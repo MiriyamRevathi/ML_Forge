@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Batch Prediction — MLForge{% endblock %}
+{% block page_title %}Bulk CSV Batch Prediction Processor{% endblock %}
+
+{% block content %}
+<div class="predictions-batch-page">
+    <div class="card" style="max-width: 650px; margin: 0 auto;">
+        <div class="card-header">
+            <h3>📂 Bulk CSV Batch Prediction</h3>
+            <a href="{{ url_for('predictions.index') }}" class="btn btn-sm btn-secondary">← Back to Predictions</a>
+        </div>
+
+        <form action="{{ url_for('predictions.batch_predict') }}" method="POST" enctype="multipart/form-data" style="margin-top: 1.5rem;">
+            <div class="form-group">
+                <label for="model_version" class="form-label">Model Version *</label>
+                <select id="model_version" name="model_version" class="form-control" required>
+                    <option value="">-- Select Model Version --</option>
+                    {% for m in models %}
+                        <option value="{{ m.version }}">
+                            {{ m.version }} — {{ m.model_name }} ({{ m.task_type.title() }} - {{ m.status }})
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group" style="margin-top: 1rem;">
+                <label for="batch_file" class="form-label">Upload Batch Input CSV File *</label>
+                <input type="file" id="batch_file" name="batch_file" accept=".csv" class="form-control" required>
+                <small class="text-muted" style="display: block; margin-top: 0.25rem;">CSV file must contain columns matching the model's feature names.</small>
+            </div>
+
+            <div style="margin-top: 2rem; display: flex; justify-content: flex-end; gap: 1rem;">
+                <a href="{{ url_for('predictions.index') }}" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary">⚡ Execute Batch Inference</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

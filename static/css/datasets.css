@@ -1,0 +1,40 @@
+/* MLForge - Datasets & Data Management Stylesheet */
+
+.datasets-page, .dataset-detail-page, .quality-page, .eda-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.upload-form .form-control {
+    background-color: var(--bg-primary);
+}
+
+.eda-charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+}
+
+.eda-chart-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.eda-chart-card img {
+    border-radius: var(--radius-md);
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.eda-chart-card img:hover {
+    transform: scale(1.01);
+    border-color: var(--accent-primary);
+}

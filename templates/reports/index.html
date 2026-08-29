@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Reports — MLForge{% endblock %}
+{% block page_title %}Platform Diagnostic Reports Archive{% endblock %}
+
+{% block content %}
+<div class="reports-index-page">
+    <!-- Reports Directory -->
+    <div class="card">
+        <h3>📜 Diagnostic & Analytical Reports Directory</h3>
+        <p class="section-desc">Generate, inspect, and download formatted Markdown reports for Datasets, Data Quality Audits, Pipeline Runs, and Data Drift Analyses.</p>
+    </div>
+
+    <div class="dashboard-columns-grid" style="margin-top: 1.5rem;">
+        <!-- Data Quality Reports -->
+        <div class="card">
+            <h3>🔍 Data Quality Audit Reports</h3>
+            <div class="table-container" style="margin-top: 1rem;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Dataset</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ds in datasets %}
+                            <tr>
+                                <td><strong>{{ ds.name }}</strong></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="{{ url_for('reports.quality_report_view', dataset_id=ds.id) }}" class="btn btn-sm btn-secondary">View Report</a>
+                                        <a href="{{ url_for('reports.download_markdown', report_type='quality', item_id=ds.id) }}" class="btn btn-sm btn-primary">⬇ .MD</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pipeline Execution Reports -->
+        <div class="card">
+            <h3>⚡ Pipeline Execution Reports</h3>
+            <div class="table-container" style="margin-top: 1rem;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Pipeline Name</th>
+                            <th>Run ID</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for run in pipeline_runs %}
+                            <tr>
+                                <td><strong>{{ run.pipeline_name }}</strong></td>
+                                <td><code>{{ run.run_id }}</code></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="{{ url_for('reports.pipeline_report_view', run_id=run.run_id) }}" class="btn btn-sm btn-secondary">View Report</a>
+                                        <a href="{{ url_for('reports.download_markdown', report_type='pipeline', item_id=run.run_id) }}" class="btn btn-sm btn-primary">⬇ .MD</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="3" class="empty-cell">No pipeline run reports available.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -41,6 +41,12 @@
                             <span class="nav-label">Datasets</span>
                         </a>
                     </li>
+                    <li class="{% if active_tab == 'quality' %}active{% endif %}">
+                        <a href="{{ url_for('quality.index') }}">
+                            <span class="nav-icon">🔍</span>
+                            <span class="nav-label">Data Quality</span>
+                        </a>
+                    </li>
                     <li class="{% if active_tab == 'pipelines' %}active{% endif %}">
                         <a href="{{ url_for('pipelines.index') }}">
                             <span class="nav-icon">⛓️</span>
@@ -71,10 +77,22 @@
                             <span class="nav-label">Monitoring</span>
                         </a>
                     </li>
+                    <li class="{% if active_tab == 'reports' %}active{% endif %}">
+                        <a href="{{ url_for('reports.index') }}">
+                            <span class="nav-icon">📜</span>
+                            <span class="nav-label">Reports</span>
+                        </a>
+                    </li>
                     <li class="{% if active_tab == 'diagnostics' %}active{% endif %}">
                         <a href="{{ url_for('diagnostics.index') }}">
                             <span class="nav-icon">🩺</span>
                             <span class="nav-label">Diagnostics</span>
+                        </a>
+                    </li>
+                    <li class="{% if active_tab == 'settings' %}active{% endif %}">
+                        <a href="{{ url_for('settings.index') }}">
+                            <span class="nav-icon">⚙️</span>
+                            <span class="nav-label">Settings</span>
                         </a>
                     </li>
                 </ul>

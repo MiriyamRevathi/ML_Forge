@@ -534,7 +534,7 @@
         "n_estimators": 50
     },
     "pipeline_id": null,
-    "status": "PRODUCTION",
+    "status": "STAGING",
     "artifact_filename": "model_v7.joblib",
     "created_at": "2026-08-29T10:16:04.714159",
     "updated_at": "2026-08-29T10:16:20.790808"

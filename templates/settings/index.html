@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Settings — MLForge{% endblock %}
+{% block page_title %}Platform Configurations & System Storage Audit{% endblock %}
+
+{% block content %}
+<div class="settings-page">
+    <div class="card">
+        <h3>⚙️ Platform File System & Storage Directory Audit</h3>
+        <p class="section-desc">Local disk storage allocation breakdown for datasets, serialized models, experiment run metadata, pipeline logs, and drift reports.</p>
+        
+        <div class="metrics-grid" style="margin-top: 1rem;">
+            <div class="metric-card">
+                <div class="metric-title">Datasets Directory</div>
+                <div class="metric-value">{{ storage_info.datasets }}</div>
+                <div class="metric-subtext">CSV data & metadata JSONs</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Models Directory</div>
+                <div class="metric-value">{{ storage_info.models }}</div>
+                <div class="metric-subtext">Serialized .joblib binaries</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Experiments Directory</div>
+                <div class="metric-value">{{ storage_info.experiments }}</div>
+                <div class="metric-subtext">Logged experiment runs</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Pipelines Directory</div>
+                <div class="metric-value">{{ storage_info.pipelines }}</div>
+                <div class="metric-subtext">DAG specs & execution records</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Monitoring Directory</div>
+                <div class="metric-value">{{ storage_info.monitoring }}</div>
+                <div class="metric-subtext">Data drift reports</div>
+            </div>
+            <div class="metric-card highlight-card">
+                <div class="metric-title">Total Platform Storage</div>
+                <div class="metric-value">{{ storage_info.total_data }}</div>
+                <div class="metric-subtext">Combined disk usage</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

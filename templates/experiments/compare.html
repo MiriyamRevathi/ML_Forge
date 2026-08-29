@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Experiment Comparison — MLForge{% endblock %}
+{% block page_title %}Multi-Experiment Performance Comparison{% endblock %}
+
+{% block content %}
+<div class="experiments-compare-page">
+    <div class="card">
+        <div class="card-header">
+            <h3>🧪 Experiment Metric & Parameter Comparison Matrix</h3>
+            <a href="{{ url_for('experiments.index') }}" class="btn btn-sm btn-secondary">← Back to Experiments</a>
+        </div>
+
+        <div class="table-container" style="margin-top: 1.5rem;">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Experiment ID</th>
+                        <th>Model Version</th>
+                        <th>Algorithm</th>
+                        <th>Task</th>
+                        <th>Accuracy / R²</th>
+                        <th>F1 / MAE</th>
+                        <th>ROC-AUC / RMSE</th>
+                        <th>Duration</th>
+                        <th>Logged At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for exp in experiments %}
+                        <tr>
+                            <td><code>{{ exp.id }}</code></td>
+                            <td><code>{{ exp.model_version }}</code></td>
+                            <td><strong>{{ exp.algorithm }}</strong></td>
+                            <td><span class="badge badge-info">{{ exp.task_type }}</span></td>
+                            <td>
+                                {% if exp.metrics.accuracy is defined %}
+                                    <strong>{{ exp.metrics.accuracy }}</strong>
+                                {% elif exp.metrics.r2_score is defined %}
+                                    <strong>{{ exp.metrics.r2_score }}</strong>
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if exp.metrics.f1_score is defined %}
+                                    {{ exp.metrics.f1_score }}
+                                {% elif exp.metrics.mae is defined %}
+                                    {{ exp.metrics.mae }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if exp.metrics.roc_auc is defined %}
+                                    {{ exp.metrics.roc_auc }}
+                                {% elif exp.metrics.rmse is defined %}
+                                    {{ exp.metrics.rmse }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>{{ exp.duration_seconds }}s</td>
+                            <td>{{ exp.created_at }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="9" class="empty-cell">No experiment runs available for comparison.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
