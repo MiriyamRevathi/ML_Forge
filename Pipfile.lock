@@ -1,0 +1,31 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "mlforge-runtime-lock-2026-08-29"
+        },
+        "pipfile-spec": 6,
+        "requires": {
+            "python_version": "3.10"
+        },
+        "sources": [
+            {
+                "name": "pypi",
+                "url": "https://pypi.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "Flask": {"version": "==3.0.3"},
+        "joblib": {"version": "==1.4.2"},
+        "matplotlib": {"version": "==3.10.9"},
+        "numpy": {"version": "==2.0.1"},
+        "pandas": {"version": "==2.2.2"},
+        "scikit-learn": {"version": "==1.5.1"},
+        "scipy": {"version": "==1.15.3"},
+        "Werkzeug": {"version": "==3.0.3"}
+    },
+    "develop": {
+        "pytest": {"version": "==9.1.1"}
+    }
+}

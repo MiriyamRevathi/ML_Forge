@@ -144,7 +144,8 @@ pytest
 ```
 
 The application dependencies are listed in `requirements.txt`; `requirements.lock`
-pins the versions used for the verified local build.
+pins the versions used for the verified local build. `Pipfile.lock` provides a
+standard lockfile for dependency scanners and records the same runtime pins.
 
 ---
 
