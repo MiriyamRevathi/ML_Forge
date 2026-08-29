@@ -334,3 +334,5 @@ class DataQualityEngine:
             "total_checks_count": len(checks),
             "checks": checks
         }
+
+# Feature sync: feature/data-quality-engine (PR #2)
