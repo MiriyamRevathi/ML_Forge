@@ -130,3 +130,5 @@ class DataCleaner:
         df_filtered = df_clean[mask].copy()
         removed_count = initial_rows - len(df_filtered)
         return df_filtered, removed_count
+
+# Feature sync: feature/data-cleaning-normalizer (PR #4)
