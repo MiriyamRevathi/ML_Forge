@@ -134,3 +134,5 @@ class ModelTrainer:
             
         model.fit(X_train, y_train)
         return model
+
+# Feature sync: feature/model-training-catalogue (PR #7)
