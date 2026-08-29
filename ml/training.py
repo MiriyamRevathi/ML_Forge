@@ -136,3 +136,5 @@ class ModelTrainer:
         return model
 
 # Feature sync: feature/model-training-catalogue (PR #7)
+
+# Feature sync: feature/model-training-catalogue (PR #7)
